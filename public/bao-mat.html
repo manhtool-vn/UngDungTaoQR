@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Chính sách bảo mật — Tạo mã QR ManhTool</title>
+  <meta name="description" content="Công cụ Tạo mã QR của ManhTool lưu những gì, giữ bao lâu, ai được xem: mã tĩnh xử lý trên trình duyệt, mã động không lưu IP người quét.">
+  <meta name="theme-color" content="#0E7C5A">
+  <link rel="icon" type="image/png" href="assets/img/mark-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/doc.css">
+  <script src="assets/js/boot.js"></script>
+  <script src="assets/js/gtag.js" defer></script>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+    <symbol id="i-qr" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 20h4v-3"/></symbol>
+  </svg>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="https://manhtool.id.vn" aria-label="ManhTool - Trang chủ">
+        <img class="brand-mark" src="assets/img/mark-192.png" alt="" width="36" height="36">
+        <span class="brand-name">Manh<span class="brand-accent">Tool</span></span>
+      </a>
+      <nav class="header-actions" aria-label="Điều hướng">
+        <a class="header-link" href="./"><svg class="ic"><use href="#i-qr"/></svg><span>Tạo mã QR</span></a>
+        <a class="header-link" href="https://manhtool.id.vn"><svg class="ic"><use href="#i-grid"/></svg><span>Tất cả công cụ</span></a>
+        <button class="icon-btn" id="themeToggle" type="button" aria-label="Đổi nền sáng/tối" title="Đổi nền sáng/tối">
+          <svg class="ic icon-sun"><use href="#i-sun"/></svg>
+          <svg class="ic icon-moon"><use href="#i-moon"/></svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container doc-main">
+    <article class="card doc">
+      <div class="doc-head">
+        <h1>Chính sách bảo mật</h1>
+        <p class="doc-updated">Cập nhật ngày 23/10/2026</p>
+        <p class="doc-lead">Trang này nói rõ công cụ Tạo mã QR của ManhTool lưu những gì, để làm gì, giữ bao lâu và bạn xóa thế nào. Nguyên tắc chung: cái gì làm được trên máy bạn thì không gửi lên máy chủ.</p>
+      </div>
+
+      <ul class="doc-toc" aria-label="Mục lục">
+        <li><a href="#ma-tinh">Mã tĩnh</a></li>
+        <li><a href="#tai-khoan">Tài khoản</a></li>
+        <li><a href="#nguoi-quet">Người quét mã động</a></li>
+        <li><a href="#thanh-toan">Thanh toán</a></li>
+        <li><a href="#cookie">Cookie</a></li>
+        <li><a href="#quyen">Quyền của bạn</a></li>
+      </ul>
+
+      <section id="ma-tinh">
+        <h2>1. Mã QR tĩnh: không rời khỏi máy bạn</h2>
+        <p>Mọi thứ bạn nhập để tạo mã tĩnh (đường dẫn, mật khẩu Wi-Fi, số tài khoản, danh thiếp…), logo tải lên và ảnh dùng để đọc mã đều được xử lý ngay trên trình duyệt, <b>không gửi lên máy chủ</b>.</p>
+        <p>Để lần sau mở lại không phải nhập lại, trình duyệt lưu nội dung đang nhập, thiết kế và các mẫu bạn tự lưu vào bộ nhớ của chính trình duyệt (localStorage). Muốn xóa, hãy xóa dữ liệu trang web trong cài đặt trình duyệt.</p>
+      </section>
+
+      <section id="tai-khoan">
+        <h2>2. Tài khoản (khi đăng nhập Google để dùng mã động)</h2>
+        <ul>
+          <li>Từ Google, chúng tôi chỉ nhận <b>tên, email, ảnh đại diện</b> và mã định danh tài khoản Google. Chúng tôi không biết mật khẩu Google của bạn và không đọc Gmail, Drive hay dữ liệu nào khác.</li>
+          <li>Với mỗi mã động, máy chủ lưu: tên gợi nhớ, thư mục, đường dẫn đích (kể cả 20 đích cũ gần nhất), đích riêng cho iPhone / Android, thiết kế mã và các tùy chọn bạn đặt. Mật khẩu mở mã được băm một chiều (scrypt), không ai đọc lại được.</li>
+          <li>Để giữ đăng nhập, máy chủ lưu phiên đăng nhập kèm tên trình duyệt của thiết bị, để bạn biết mình đang đăng nhập ở mấy nơi.</li>
+          <li>Email dùng để đăng nhập và để liên hệ khi cần (thanh toán, mã bị báo cáo vi phạm). Chúng tôi không gửi quảng cáo.</li>
+        </ul>
+      </section>
+
+      <section id="nguoi-quet">
+        <h2>3. Người quét mã động</h2>
+        <p>Mỗi lượt quét, máy chủ ghi vào thống kê của mã: thời điểm, hệ điều hành, trình duyệt hoặc ứng dụng quét (Zalo, Facebook…), loại thiết bị và quốc gia (chỉ khi trang chạy sau Cloudflare). <b>Không lưu địa chỉ IP.</b></p>
+        <ul>
+          <li>Để đếm "người quét không trùng trong ngày", máy chủ dùng một bản băm một chiều của IP và trình duyệt, chỉ giữ trong ngày rồi xóa.</li>
+          <li>Thống kê theo ngày giữ tối đa 400 ngày; danh sách lượt quét gần nhất chỉ giữ 30 lượt.</li>
+          <li>Lượt mở từ máy tự động (bot tìm kiếm, khung xem trước liên kết) không được tính.</li>
+          <li>Chỉ chủ mã (và quản trị viên khi kiểm tra vi phạm) xem được thống kê của mã.</li>
+        </ul>
+      </section>
+
+      <section id="thanh-toan">
+        <h2>4. Thanh toán gói Pro</h2>
+        <p>Bạn chuyển khoản bằng app ngân hàng của mình; chúng tôi không bao giờ hỏi hay lưu số thẻ, mật khẩu ngân hàng, mã OTP. Máy chủ lưu mã đơn, gói, số tiền, thời gian, và thông tin giao dịch tiền vào do SePay báo về (số tiền, nội dung chuyển khoản) để đối soát.</p>
+      </section>
+
+      <section id="bao-cao">
+        <h2>5. Báo cáo mã vi phạm</h2>
+        <p>Khi bạn báo cáo một mã, máy chủ lưu đường dẫn mã, lý do, mô tả và cách liên hệ (nếu bạn để lại). Không lưu IP; chỉ giữ bản băm trong ngày để một người không gửi trùng nhiều lần. Báo cáo đã xử lý tự xóa sau 90 ngày.</p>
+      </section>
+
+      <section id="cookie">
+        <h2>6. Cookie</h2>
+        <div class="doc-scroll">
+          <table class="doc-table">
+            <thead><tr><th>Tên</th><th>Dùng để</th><th>Thời hạn</th></tr></thead>
+            <tbody>
+              <tr><td><code>mq_at</code>, <code>mq_rt</code></td><td>Giữ đăng nhập. Trình duyệt không cho JavaScript đọc (HttpOnly), mã phiên đổi mới liên tục.</td><td>Theo phiên đăng nhập, tối đa 30 ngày</td></tr>
+              <tr><td><code>qp_…</code></td><td>Nhớ là bạn đã nhập đúng mật khẩu của một mã động có mật khẩu.</td><td>12 giờ</td></tr>
+              <tr><td><code>_ga…</code></td><td>Google Analytics đếm lượt truy cập trang, không gắn với tài khoản của bạn.</td><td>Theo chính sách của Google</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Không có cookie quảng cáo hay theo dõi bạn sang trang khác.</p>
+      </section>
+
+      <section id="chia-se">
+        <h2>7. Chia sẻ dữ liệu</h2>
+        <p>Chúng tôi không bán và không chia sẻ dữ liệu của bạn, trừ: Google (để đăng nhập), SePay và ngân hàng (để đối soát chuyển khoản), Google Analytics (lượt truy cập trang), và cơ quan nhà nước khi có yêu cầu đúng pháp luật.</p>
+      </section>
+
+      <section id="quyen">
+        <h2>8. Quyền của bạn</h2>
+        <ul>
+          <li><b>Xem và tải về</b> toàn bộ dữ liệu tài khoản, mã động và thống kê: Tài khoản → Tải dữ liệu (.json).</li>
+          <li><b>Sửa</b> tên hiển thị, đích đến, tùy chọn của từng mã bất cứ lúc nào.</li>
+          <li><b>Xóa</b>: xóa từng mã, hoặc xóa tài khoản (Tài khoản → Xóa tài khoản) là xóa ngay mọi mã động và thống kê. Bản sao lưu cũ trên máy chủ tự thay thế dần và mất hẳn sau khoảng 14 ngày.</li>
+          <li><b>Đăng xuất mọi thiết bị</b> nếu nghi ngờ người khác dùng tài khoản của bạn.</li>
+        </ul>
+      </section>
+
+      <section id="an-toan">
+        <h2>9. Giữ an toàn dữ liệu</h2>
+        <p>Trang chạy qua HTTPS, phiên đăng nhập nằm trong cookie HttpOnly và tự xoay vòng, mọi thao tác ghi đều được chống giả mạo yêu cầu. Chỉ quản trị viên ManhTool truy cập được máy chủ.</p>
+      </section>
+
+      <section id="lien-he">
+        <h2>10. Liên hệ</h2>
+        <p>Có câu hỏi về dữ liệu của bạn: ManhTool — <a href="https://manhtool.id.vn">manhtool.id.vn</a> · Điện thoại, Zalo: <a href="tel:0988392321">0988 392 321</a>. Xem thêm <a href="dieu-khoan.html">Điều khoản sử dụng</a>.</p>
+      </section>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <a class="footer-brand" href="https://manhtool.id.vn">
+        <img src="assets/img/mark-192.png" alt="" width="28" height="28">
+        <span><strong>ManhTool</strong> · Những công cụ nhỏ – Tạo nên giá trị lớn.</span>
+      </a>
+      <nav class="footer-links" aria-label="Thông tin">
+        <a href="dieu-khoan.html">Điều khoản</a>
+        <a href="bao-mat.html" aria-current="page">Bảo mật</a>
+        <a href="dieu-khoan.html#bao-cao">Báo cáo mã vi phạm</a>
+      </nav>
+      <span class="footer-copy">© 2026 manhtool.id.vn</span>
+    </div>
+  </footer>
+
+  <script src="assets/js/page.js" defer></script>
+</body>
+</html>

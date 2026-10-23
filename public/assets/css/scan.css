@@ -1,0 +1,23 @@
+/* Trang nhỏ hiện khi quét mã QR động bị tắt, hết hạn, hoặc cần mật khẩu */
+:root { color-scheme: light dark; --bg: #f5f8f6; --card: #fff; --text: #13241f; --text-2: #4a5a55; --border: #e1ebe5; --primary: #0e7c5a; --on-primary: #fff; --danger: #c2410c; }
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #0c1613; --card: #121e1a; --text: #e7f1ec; --text-2: #a8bab2; --border: #213530; --primary: #12b886; --on-primary: #04241a; --danger: #fb923c; }
+}
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 16px; background: var(--bg); color: var(--text); font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+.scan-card { width: 100%; max-width: 400px; padding: 28px 22px 20px; text-align: center; background: var(--card); border: 1px solid var(--border); border-radius: 20px; box-shadow: 0 8px 30px rgba(15,38,32,.08); display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.scan-ico { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 16px; background: linear-gradient(115deg, #0e7c5a, #12b886 50%, #7ccf3e); color: #fff; font-size: 1.6rem; font-weight: 800; }
+.scan-ico-warn { background: linear-gradient(115deg, #e8590c, #f59f00); }
+h1 { margin: 6px 0 0; font-size: 1.3rem; }
+p { margin: 0; color: var(--text-2); }
+form { width: 100%; display: flex; flex-direction: column; gap: 10px; margin-top: 8px; }
+input { height: 46px; padding: 0 14px; font: inherit; color: var(--text); background: transparent; border: 1.5px solid var(--border); border-radius: 12px; outline: none; }
+input:focus { border-color: var(--primary); }
+button { height: 46px; border: 0; border-radius: 12px; background: var(--primary); color: var(--on-primary); font: inherit; font-weight: 700; cursor: pointer; }
+.scan-err { color: var(--danger); font-weight: 600; font-size: .9rem; }
+.scan-foot { display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); width: 100%; justify-content: center; font-size: .85rem; color: var(--text-2); text-decoration: none; }
+.scan-foot img { border-radius: 5px; background: #fff; }
+.scan-foot b { color: var(--primary); }
+.scan-more { font-size: .9rem; }
+.scan-more a, .scan-links a { color: var(--primary); font-weight: 600; }
+.scan-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 16px; margin-top: 4px; }

@@ -1,0 +1,27 @@
+# /etc/systemd/system/maqr.service
+# Cài: sudo cp deploy/maqr.service /etc/systemd/system/ && sudo systemctl daemon-reload && sudo systemctl enable --now maqr
+# Xem log: journalctl -u maqr -f
+[Unit]
+Description=ManhTool Tao ma QR
+After=network.target
+
+[Service]
+Type=simple
+User=maqr
+WorkingDirectory=/opt/maqr
+ExecStart=/usr/bin/node server/index.js
+Restart=always
+RestartSec=3
+Environment=NODE_ENV=production
+# SIGTERM: máy chủ ghi nốt lượt quét đang chờ rồi mới tắt
+KillSignal=SIGTERM
+TimeoutStopSec=10
+# Gia cố bảo mật: chỉ được ghi vào thư mục dữ liệu
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ReadWritePaths=/opt/maqr/data
+
+[Install]
+WantedBy=multi-user.target

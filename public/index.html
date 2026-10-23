@@ -1,0 +1,820 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Tạo mã QR chuyên nghiệp — ManhTool</title>
+  <meta name="description" content="Tạo mã QR cho đường dẫn, Wi-Fi, danh thiếp, chuyển khoản VietQR. Đổi màu, gắn logo, thêm khung rồi tải PNG/SVG. Mã QR động sửa được đích đến và xem thống kê lượt quét.">
+  <meta name="theme-color" content="#0E7C5A">
+  <meta property="og:title" content="Tạo mã QR chuyên nghiệp — ManhTool">
+  <meta property="og:description" content="Mã QR có logo, màu, khung. Mã động sửa được đích đến, có thống kê lượt quét.">
+  <meta property="og:image" content="assets/img/logo-512.png">
+  <link rel="icon" type="image/png" href="assets/img/mark-192.png">
+  <link rel="apple-touch-icon" href="assets/img/mark-192.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/account.css">
+  <link rel="stylesheet" href="assets/css/qr.css">
+  <script src="assets/js/boot.js"></script>
+  <script src="assets/js/gtag.js" defer></script>
+</head>
+<body>
+  <!-- Bộ icon dùng chung (nét 2px, bo tròn) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+    <symbol id="i-qr" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 20h4v-3"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></symbol>
+    <symbol id="i-text" viewBox="0 0 24 24"><path d="M4 7V5h16v2M9 19h6M12 5v14"/></symbol>
+    <symbol id="i-wifi" viewBox="0 0 24 24"><path d="M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0M2 9a15 15 0 0 1 20 0"/><path d="M12 19.5h.01"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></symbol>
+    <symbol id="i-sms" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 10h.01M12 10h.01M16 10h.01"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2.5"/><path d="M5.5 16.5a4 4 0 0 1 7 0M15 9h3M15 13h3"/></symbol>
+    <symbol id="i-bank" viewBox="0 0 24 24"><path d="M3 21h18M5 21v-9M19 21v-9M9.5 21v-9M14.5 21v-9M2 10l10-6 10 6z"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.4-4.6A8 8 0 1 1 21 12z"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+    <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21"/></symbol>
+    <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 15V3"/><path d="m7 8 5-5 5 5"/><path d="M5 21h14"/></symbol>
+    <symbol id="i-printer" viewBox="0 0 24 24"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></symbol>
+    <symbol id="i-scan" viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 12h10"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+    <symbol id="i-check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></symbol>
+    <symbol id="i-pencil" viewBox="0 0 24 24"><path d="M17 3a2.8 2.8 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5z"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M8 17v-4M13 17V8M18 17v-7"/></symbol>
+    <symbol id="i-palette" viewBox="0 0 24 24"><path d="M12 22a10 10 0 1 1 10-10c0 2.8-2.2 4-4 4h-2a2 2 0 0 0-1.5 3.3A1.7 1.7 0 0 1 12 22z"/><circle cx="7.5" cy="10.5" r="1"/><circle cx="12" cy="7" r="1"/><circle cx="16.5" cy="10.5" r="1"/></symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 2 10 5-10 5L2 7z"/><path d="m2 17 10 5 10-5M2 12l10 5 10-5"/></symbol>
+    <symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M9.94 15.5A2 2 0 0 0 8.5 14.06l-6.13-1.58a.5.5 0 0 1 0-.96L8.5 9.94A2 2 0 0 0 9.94 8.5l1.58-6.13a.5.5 0 0 1 .96 0L14.06 8.5A2 2 0 0 0 15.5 9.94l6.13 1.58a.5.5 0 0 1 0 .96L15.5 14.06a2 2 0 0 0-1.44 1.44l-1.58 6.13a.5.5 0 0 1-.96 0z"/></symbol>
+    <symbol id="i-zap" viewBox="0 0 24 24"><path d="M13 2 3 14h9l-1 8 10-12h-9z"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+    <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></symbol>
+    <symbol id="i-external" viewBox="0 0 24 24"><path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></symbol>
+    <symbol id="i-history" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/></symbol>
+    <symbol id="i-bookmark" viewBox="0 0 24 24"><path d="M19 21l-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M19 14c1.5-1.5 3-3.2 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.8 0-3 .5-4.5 2-1.5-1.5-2.7-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4 3 5.5l7 7z"/></symbol>
+    <symbol id="i-zoom" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3M11 8v6M8 11h6"/></symbol>
+    <symbol id="i-code" viewBox="0 0 24 24"><path d="m16 18 6-6-6-6M8 6l-6 6 6 6"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20M2 12h20"/></symbol>
+    <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></symbol>
+    <symbol id="i-megaphone" viewBox="0 0 24 24"><path d="m3 11 18-5v12L3 14v-3zM11.6 16.8a3 3 0 1 1-5.8-1.6"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></symbol>
+    <symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></symbol>
+    <symbol id="i-google" viewBox="0 0 24 24"><path d="M21.35 11.1H12v2.9h5.35c-.5 2.5-2.6 3.9-5.35 3.9a6 6 0 1 1 3.9-10.5l2.15-2.15A9 9 0 1 0 21 12c0-.3 0-.6-.05-.9z"/></symbol>
+    <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></symbol>
+    <symbol id="i-flag" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1zM4 22v-7"/></symbol>
+    <symbol id="i-smartphone" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></symbol>
+  </svg>
+
+  <a class="skip-link" href="#maker">Đến công cụ tạo mã</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="https://manhtool.id.vn" aria-label="ManhTool - Trang chủ">
+        <img class="brand-mark" src="assets/img/mark-192.png" alt="" width="36" height="36">
+        <span class="brand-name">Manh<span class="brand-accent">Tool</span></span>
+      </a>
+      <nav class="header-actions" aria-label="Điều hướng">
+        <a class="header-link header-dyn" href="#ma-dong"><svg class="ic"><use href="#i-zap"/></svg><span>Mã động</span></a>
+        <a class="header-link" href="https://manhtool.id.vn"><svg class="ic"><use href="#i-grid"/></svg><span>Tất cả công cụ</span></a>
+        <button class="icon-btn" id="themeToggle" type="button" aria-label="Đổi nền sáng/tối" title="Đổi nền sáng/tối">
+          <svg class="ic icon-sun"><use href="#i-sun"/></svg>
+          <svg class="ic icon-moon"><use href="#i-moon"/></svg>
+        </button>
+        <button class="login-btn" type="button" id="btnLogin" hidden title="Đăng nhập để tạo mã QR động và xem thống kê">
+          <svg class="ic"><use href="#i-google"/></svg><span>Đăng nhập</span>
+        </button>
+        <button class="avatar-btn" type="button" id="btnAccount" hidden>
+          <img alt="" width="34" height="34" referrerpolicy="no-referrer" hidden><span class="avatar-ini" hidden></span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero container">
+      <h1>Tạo mã QR <span class="grad-text">chuyên nghiệp</span></h1>
+      <p>Đường dẫn, Wi-Fi, danh thiếp, chuyển khoản. Đổi màu, gắn logo, thêm khung rồi tải PNG hoặc SVG.</p>
+    </section>
+
+    <div class="container">
+      <!-- ===== Công cụ tạo mã ===== -->
+      <section class="card tool" id="maker" aria-label="Tạo mã QR">
+        <div class="maker">
+          <div class="maker-edit">
+
+            <!-- Đang thiết kế cho 1 mã động -->
+            <div class="dyn-banner" id="dynBanner" hidden>
+              <span class="dyn-ico"><svg class="ic"><use href="#i-zap"/></svg></span>
+              <div class="dyn-text">
+                <b>Đang thiết kế mã động <span id="dynName"></span></b>
+                <span>Mã chứa <a id="dynShort" target="_blank" rel="noopener"></a>, đổi đích lúc nào cũng được.</span>
+              </div>
+              <button class="icon-btn" type="button" id="dynExit" aria-label="Thoát chế độ mã động" title="Thoát, quay lại tạo mã thường"><svg class="ic"><use href="#i-x"/></svg></button>
+            </div>
+
+            <div class="types" id="types" role="tablist" aria-label="Loại mã QR">
+              <button type="button" role="tab" class="type-btn" data-type="url"><svg class="ic"><use href="#i-link"/></svg>Đường dẫn</button>
+              <button type="button" role="tab" class="type-btn" data-type="text"><svg class="ic"><use href="#i-text"/></svg>Văn bản</button>
+              <button type="button" role="tab" class="type-btn" data-type="wifi"><svg class="ic"><use href="#i-wifi"/></svg>Wi-Fi</button>
+              <button type="button" role="tab" class="type-btn" data-type="bank"><svg class="ic"><use href="#i-bank"/></svg>Chuyển khoản</button>
+              <button type="button" role="tab" class="type-btn" data-type="vcard"><svg class="ic"><use href="#i-user"/></svg>Danh thiếp</button>
+              <button type="button" role="tab" class="type-btn" data-type="phone"><svg class="ic"><use href="#i-phone"/></svg>Điện thoại</button>
+              <button type="button" role="tab" class="type-btn" data-type="zalo"><svg class="ic"><use href="#i-chat"/></svg>Zalo</button>
+              <button type="button" role="tab" class="type-btn" data-type="sms"><svg class="ic"><use href="#i-sms"/></svg>Tin nhắn</button>
+              <button type="button" role="tab" class="type-btn" data-type="email"><svg class="ic"><use href="#i-mail"/></svg>Email</button>
+              <button type="button" role="tab" class="type-btn" data-type="geo"><svg class="ic"><use href="#i-pin"/></svg>Vị trí</button>
+              <button type="button" role="tab" class="type-btn" data-type="event"><svg class="ic"><use href="#i-calendar"/></svg>Sự kiện</button>
+            </div>
+
+            <form class="type-form" id="typeForm" autocomplete="off" novalidate>
+              <fieldset class="tf" data-type="url">
+                <label class="field">Đường dẫn
+                  <input type="url" name="url" placeholder="https://ví-dụ.vn/trang-cua-ban" inputmode="url" spellcheck="false">
+                </label>
+                <p class="tf-hint">Muốn đổi đường dẫn sau khi đã in hoặc xem ai quét? Dùng <button type="button" class="link-btn" data-act="make-dyn">mã QR động</button>.</p>
+              </fieldset>
+
+              <fieldset class="tf" data-type="dyn" hidden>
+                <label class="field">Đích đến của mã động
+                  <input type="url" name="dynTarget" placeholder="https://..." inputmode="url" spellcheck="false">
+                </label>
+                <div class="tf-row">
+                  <button type="button" class="btn-primary" id="dynSaveTarget" disabled><svg class="ic"><use href="#i-check"/></svg><span>Lưu đích mới</span></button>
+                  <button type="button" class="btn-ghost" id="dynStats"><svg class="ic"><use href="#i-chart"/></svg><span>Thống kê</span></button>
+                </div>
+                <p class="tf-hint">Đổi đích không cần in lại: mã đã in vẫn giữ nguyên, người quét sẽ tới đích mới.</p>
+              </fieldset>
+
+              <fieldset class="tf" data-type="text" hidden>
+                <label class="field">Nội dung
+                  <textarea name="text" rows="4" placeholder="Gõ nội dung bất kỳ: lời chào, mã giảm giá, ghi chú…"></textarea>
+                </label>
+                <p class="tf-count" id="textCount"></p>
+              </fieldset>
+
+              <fieldset class="tf" data-type="wifi" hidden>
+                <label class="field">Tên Wi-Fi (SSID)<input type="text" name="ssid" placeholder="VD: Cafe Manh 5G"></label>
+                <div class="tf-row">
+                  <label class="field grow">Mật khẩu<input type="text" name="password" placeholder="Mật khẩu Wi-Fi"></label>
+                  <label class="field">Bảo mật
+                    <select class="select" name="auth"><option value="WPA">WPA/WPA2</option><option value="SAE">WPA3</option><option value="WEP">WEP</option><option value="nopass">Không mật khẩu</option></select>
+                  </label>
+                </div>
+                <label class="opt"><input type="checkbox" name="hidden"><span class="switch" aria-hidden="true"></span>Mạng ẩn (không phát tên)</label>
+                <p class="tf-hint">Khách quét bằng camera là vào mạng ngay, không cần đọc mật khẩu.</p>
+              </fieldset>
+
+              <fieldset class="tf" data-type="bank" hidden>
+                <label class="field">Ngân hàng
+                  <select class="select" name="bin" id="bankSelect"></select>
+                </label>
+                <div class="tf-row">
+                  <label class="field grow">Số tài khoản<input type="text" name="account" inputmode="numeric" placeholder="VD: 19036123456789"></label>
+                  <label class="field grow">Số tiền (không bắt buộc)<input type="text" name="amount" inputmode="numeric" placeholder="VD: 50.000"></label>
+                </div>
+                <label class="field">Nội dung chuyển khoản<input type="text" name="info" maxlength="60" placeholder="VD: Thanh toan don 1024"></label>
+                <p class="tf-hint">Mã VietQR chuẩn NAPAS, quét bằng mọi app ngân hàng và ví. Nội dung tự đổi thành chữ in hoa không dấu để ngân hàng nào cũng đọc được. Mã tạo ngay trên máy bạn, số tài khoản không gửi đi đâu.</p>
+              </fieldset>
+
+              <fieldset class="tf" data-type="vcard" hidden>
+                <div class="tf-row">
+                  <label class="field grow">Họ<input type="text" name="lastName" placeholder="Nguyễn"></label>
+                  <label class="field grow">Tên<input type="text" name="firstName" placeholder="Văn A"></label>
+                </div>
+                <div class="tf-row">
+                  <label class="field grow">Di động<input type="tel" name="mobile" placeholder="0988 392 321"></label>
+                  <label class="field grow">Email<input type="email" name="email" placeholder="ban@congty.vn"></label>
+                </div>
+                <div class="tf-row">
+                  <label class="field grow">Công ty<input type="text" name="org"></label>
+                  <label class="field grow">Chức vụ<input type="text" name="title"></label>
+                </div>
+                <details class="tf-more">
+                  <summary>Thêm thông tin</summary>
+                  <div class="tf-row">
+                    <label class="field grow">Điện thoại cơ quan<input type="tel" name="work"></label>
+                    <label class="field grow">Website<input type="url" name="website" placeholder="congty.vn"></label>
+                  </div>
+                  <label class="field">Địa chỉ<input type="text" name="address"></label>
+                  <label class="field">Ghi chú<input type="text" name="note"></label>
+                </details>
+                <p class="tf-hint">Quét là lưu ngay vào danh bạ điện thoại.</p>
+              </fieldset>
+
+              <fieldset class="tf" data-type="phone" hidden>
+                <label class="field">Số điện thoại<input type="tel" name="phone" placeholder="0988 392 321"></label>
+                <p class="tf-hint">Quét xong điện thoại mở sẵn màn hình gọi số này.</p>
+              </fieldset>
+
+              <fieldset class="tf" data-type="zalo" hidden>
+                <label class="field">Số điện thoại Zalo<input type="tel" name="zaloPhone" placeholder="0988 392 321"></label>
+                <p class="tf-hint">Mở thẳng cửa sổ trò chuyện Zalo với số này.</p>
+              </fieldset>
+
+              <fieldset class="tf" data-type="sms" hidden>
+                <label class="field">Gửi tới số<input type="tel" name="smsPhone" placeholder="0988 392 321"></label>
+                <label class="field">Nội dung tin nhắn<textarea name="body" rows="3"></textarea></label>
+              </fieldset>
+
+              <fieldset class="tf" data-type="email" hidden>
+                <label class="field">Gửi tới<input type="email" name="to" placeholder="lienhe@congty.vn"></label>
+                <label class="field">Tiêu đề<input type="text" name="subject"></label>
+                <label class="field">Nội dung<textarea name="mailBody" rows="3"></textarea></label>
+              </fieldset>
+
+              <fieldset class="tf" data-type="geo" hidden>
+                <label class="field">Địa chỉ hoặc tên địa điểm<input type="text" name="query" placeholder="VD: 1 Tràng Tiền, Hoàn Kiếm, Hà Nội"></label>
+                <div class="tf-row">
+                  <label class="field grow">Vĩ độ (tùy chọn)<input type="text" name="lat" inputmode="decimal" placeholder="21.0245"></label>
+                  <label class="field grow">Kinh độ (tùy chọn)<input type="text" name="lng" inputmode="decimal" placeholder="105.8577"></label>
+                </div>
+                <p class="tf-hint">Có tọa độ thì dùng tọa độ cho chính xác. Mở bằng Google Maps trên mọi điện thoại.</p>
+              </fieldset>
+
+              <fieldset class="tf" data-type="event" hidden>
+                <label class="field">Tên sự kiện<input type="text" name="evTitle" placeholder="VD: Khai trương cửa hàng"></label>
+                <div class="tf-row">
+                  <label class="field grow">Bắt đầu<input type="datetime-local" name="start"></label>
+                  <label class="field grow">Kết thúc<input type="datetime-local" name="end"></label>
+                </div>
+                <label class="field">Địa điểm<input type="text" name="location"></label>
+                <label class="field">Mô tả<input type="text" name="desc"></label>
+              </fieldset>
+            </form>
+
+            <!-- ===== Thiết kế ===== -->
+            <div class="design">
+              <div class="design-tabs" role="tablist" aria-label="Thiết kế mã">
+                <button type="button" role="tab" data-tab="preset" aria-selected="true"><svg class="ic"><use href="#i-sparkles"/></svg>Mẫu</button>
+                <button type="button" role="tab" data-tab="color" aria-selected="false"><svg class="ic"><use href="#i-palette"/></svg>Màu</button>
+                <button type="button" role="tab" data-tab="dots" aria-selected="false"><svg class="ic"><use href="#i-qr"/></svg>Hình &amp; chấm</button>
+                <button type="button" role="tab" data-tab="logo" aria-selected="false"><svg class="ic"><use href="#i-image"/></svg>Logo</button>
+                <button type="button" role="tab" data-tab="frame" aria-selected="false"><svg class="ic"><use href="#i-bookmark"/></svg>Khung</button>
+                <button type="button" role="tab" data-tab="more" aria-selected="false"><svg class="ic"><use href="#i-layers"/></svg>Khác</button>
+              </div>
+
+              <div class="dpanel" data-panel="preset">
+                <div class="swatch-grid" id="presetGrid"></div>
+                <div class="my-presets">
+                  <div class="mp-head">
+                    <span class="opt-title">Mẫu của bạn</span>
+                    <button type="button" class="chip" id="savePreset"><svg class="ic"><use href="#i-plus"/></svg>Lưu thiết kế này</button>
+                  </div>
+                  <div class="swatch-grid" id="myPresetGrid"></div>
+                  <p class="tf-hint" id="myPresetEmpty">Lưu lại thiết kế hay dùng (màu, logo, khung) để lần sau áp vào chỉ với 1 lần bấm.</p>
+                </div>
+              </div>
+
+              <div class="dpanel" data-panel="color" hidden>
+                <div class="color-row">
+                  <label class="color-field"><span>Màu mã</span><span class="color-pick"><input type="color" data-k="fg"><input type="text" class="hex" data-hex="fg" maxlength="7" spellcheck="false"></span></label>
+                  <label class="color-field"><span>Màu nền</span><span class="color-pick"><input type="color" data-k="bg"><input type="text" class="hex" data-hex="bg" maxlength="7" spellcheck="false"></span></label>
+                  <button type="button" class="icon-btn swap-btn" id="swapColors" title="Đổi chỗ 2 màu" aria-label="Đổi chỗ màu mã và màu nền"><svg class="ic"><use href="#i-history"/></svg></button>
+                </div>
+                <div class="quick-colors" id="quickColors" aria-label="Màu gợi ý"></div>
+                <label class="opt"><input type="checkbox" data-k="transparent"><span class="switch" aria-hidden="true"></span>Nền trong suốt (PNG, SVG)</label>
+                <div class="opt-group">
+                  <span class="opt-title">Dải màu</span>
+                  <div class="seg seg-3" role="radiogroup" data-radio="grad">
+                    <button type="button" role="radio" data-v="none">Một màu</button>
+                    <button type="button" role="radio" data-v="linear">Chuyển thẳng</button>
+                    <button type="button" role="radio" data-v="radial">Tỏa tròn</button>
+                  </div>
+                </div>
+                <div class="color-row" id="gradRow">
+                  <label class="color-field"><span>Màu thứ 2</span><span class="color-pick"><input type="color" data-k="fg2"><input type="text" class="hex" data-hex="fg2" maxlength="7" spellcheck="false"></span></label>
+                  <label class="range-field" id="angleField"><span>Góc <b id="angleVal"></b></span><input type="range" min="0" max="360" step="15" data-k="angle"></label>
+                </div>
+              </div>
+
+              <div class="dpanel" data-panel="dots" hidden>
+                <span class="opt-title">Hình dáng mã</span>
+                <div class="style-grid style-grid-wide" id="shapeGrid" role="radiogroup" aria-label="Hình dáng mã"></div>
+                <span class="opt-title">Kiểu chấm</span>
+                <div class="style-grid" id="dotGrid" role="radiogroup" aria-label="Kiểu chấm"></div>
+                <span class="opt-title">Khung mắt định vị</span>
+                <div class="style-grid" id="eyeFrameGrid" role="radiogroup" aria-label="Khung mắt"></div>
+                <span class="opt-title">Lõi mắt định vị</span>
+                <div class="style-grid" id="eyeBallGrid" role="radiogroup" aria-label="Lõi mắt"></div>
+                <label class="opt"><input type="checkbox" id="eyeOwn"><span class="switch" aria-hidden="true"></span>Màu riêng cho mắt</label>
+                <div class="color-row" id="eyeColors" hidden>
+                  <label class="color-field"><span>Khung mắt</span><span class="color-pick"><input type="color" data-k="eyeColor"><input type="text" class="hex" data-hex="eyeColor" maxlength="7" spellcheck="false"></span></label>
+                  <label class="color-field"><span>Lõi mắt</span><span class="color-pick"><input type="color" data-k="eyeBallColor"><input type="text" class="hex" data-hex="eyeBallColor" maxlength="7" spellcheck="false"></span></label>
+                </div>
+              </div>
+
+              <div class="dpanel" data-panel="logo" hidden>
+                <div class="logo-row">
+                  <div class="logo-drop" id="logoDrop" tabindex="0" role="button" aria-label="Chọn ảnh logo">
+                    <img id="logoPreview" alt="" hidden>
+                    <span id="logoEmpty"><svg class="ic"><use href="#i-upload"/></svg>Chọn hoặc kéo ảnh logo vào đây</span>
+                  </div>
+                  <div class="logo-side">
+                    <span class="opt-title">Biểu tượng có sẵn</span>
+                    <div class="icon-logos" id="iconLogos"></div>
+                  </div>
+                </div>
+                <div class="logo-opts" id="logoOpts" hidden>
+                  <label class="range-field"><span>Cỡ logo <b id="logoSizeVal"></b></span><input type="range" min="0.1" max="0.3" step="0.01" data-k="logoSize"></label>
+                  <div class="opt-group">
+                    <span class="opt-title">Nền sau logo</span>
+                    <div class="seg seg-3" role="radiogroup" data-radio="logoPlate">
+                      <button type="button" role="radio" data-v="square">Vuông</button>
+                      <button type="button" role="radio" data-v="circle">Tròn</button>
+                      <button type="button" role="radio" data-v="none">Không</button>
+                    </div>
+                  </div>
+                  <button type="button" class="btn-ghost" id="logoRemove"><svg class="ic"><use href="#i-trash"/></svg><span>Bỏ logo</span></button>
+                </div>
+                <p class="tf-hint">Có logo, mã tự chuyển sang mức sửa lỗi cao (H) để vẫn quét tốt. Ảnh chỉ xử lý trên máy bạn.</p>
+              </div>
+
+              <div class="dpanel" data-panel="frame" hidden>
+                <div class="style-grid style-grid-wide" id="labelGrid" role="radiogroup" aria-label="Kiểu khung"></div>
+                <div id="labelOpts">
+                  <label class="field">Chữ trên khung<input type="text" data-k="labelText" maxlength="40"></label>
+                  <div class="quick-texts" id="quickTexts"></div>
+                  <div class="color-row">
+                    <label class="color-field"><span>Màu khung</span><span class="color-pick"><input type="color" data-k="labelColor"><input type="text" class="hex" data-hex="labelColor" maxlength="7" spellcheck="false"></span></label>
+                    <label class="color-field"><span>Màu chữ</span><span class="color-pick"><input type="color" data-k="labelTextColor"><input type="text" class="hex" data-hex="labelTextColor" maxlength="7" spellcheck="false"></span></label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="dpanel" data-panel="more" hidden>
+                <label class="range-field"><span>Lề trắng quanh mã <b id="marginVal"></b></span><input type="range" min="0" max="10" step="1" data-k="margin"></label>
+                <div class="opt-group">
+                  <span class="opt-title">Mức sửa lỗi</span>
+                  <div class="seg seg-4" role="radiogroup" data-radio="ecc">
+                    <button type="button" role="radio" data-v="L" title="Khôi phục được khoảng 7% mã bị hỏng">L · 7%</button>
+                    <button type="button" role="radio" data-v="M" title="Khôi phục được khoảng 15%">M · 15%</button>
+                    <button type="button" role="radio" data-v="Q" title="Khôi phục được khoảng 25%">Q · 25%</button>
+                    <button type="button" role="radio" data-v="H" title="Khôi phục được khoảng 30%">H · 30%</button>
+                  </div>
+                  <p class="opt-note">Mức cao giúp mã vẫn quét được khi bị bẩn, xước hay có logo, đổi lại mã dày chấm hơn.</p>
+                </div>
+                <button type="button" class="btn-ghost" id="resetDesign"><svg class="ic"><use href="#i-history"/></svg><span>Về thiết kế mặc định</span></button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ===== Xem trước + tải về ===== -->
+          <div class="maker-preview">
+            <div class="preview-wrap">
+              <div class="preview" id="preview" role="img" aria-label="Mã QR xem trước"></div>
+              <div class="preview-empty" id="previewEmpty" hidden>
+                <svg class="ic"><use href="#i-qr"/></svg>
+                <span id="previewEmptyText">Nhập nội dung để tạo mã</span>
+              </div>
+            </div>
+            <p class="preview-meta" id="previewMeta"></p>
+            <div class="warn-box" id="warnBox" hidden></div>
+            <div class="scan-result" id="scanResult" hidden></div>
+
+            <div class="dl-row">
+              <label class="visually-hidden" for="dlSize">Kích thước ảnh PNG</label>
+              <select class="select dl-size" id="dlSize">
+                <option value="512">512 px</option>
+                <option value="1024" selected>1024 px</option>
+                <option value="2048">2048 px</option>
+                <option value="4096">4096 px</option>
+              </select>
+              <button type="button" class="btn-primary dl-main" id="dlPng"><svg class="ic"><use href="#i-download"/></svg><span>Tải PNG</span></button>
+              <button type="button" class="btn-ghost" id="dlSvg" title="Ảnh vector, phóng to bao nhiêu cũng nét, hợp cho in ấn"><span>SVG</span></button>
+            </div>
+            <div class="dl-more">
+              <button type="button" class="chip" id="btnCopyImg"><svg class="ic"><use href="#i-copy"/></svg>Chép ảnh</button>
+              <button type="button" class="chip" id="btnJpg"><svg class="ic"><use href="#i-image"/></svg>JPG</button>
+              <button type="button" class="chip" id="btnPrint"><svg class="ic"><use href="#i-printer"/></svg>In</button>
+              <button type="button" class="chip" id="btnCheck" title="Giải mã thử ảnh vừa thiết kế để chắc chắn điện thoại đọc được"><svg class="ic"><use href="#i-scan"/></svg>Thử quét</button>
+            </div>
+
+            <div class="dyn-card" id="dynCard">
+              <div class="dyn-card-head">
+                <span class="dyn-ico"><svg class="ic"><use href="#i-zap"/></svg></span>
+                <div>
+                  <b>Biến thành mã QR động</b>
+                  <p>In một lần, đổi đường dẫn đích bất cứ lúc nào và xem số lượt quét theo ngày, theo điện thoại.</p>
+                </div>
+              </div>
+              <button type="button" class="btn-primary" id="makeDyn"><svg class="ic"><use href="#i-zap"/></svg><span>Tạo mã động</span></button>
+            </div>
+            <div class="dyn-card is-saving" id="dynSaveCard" hidden>
+              <button type="button" class="btn-primary" id="dynSaveDesign"><svg class="ic"><use href="#i-check"/></svg><span>Lưu thiết kế cho mã này</span></button>
+              <p class="tf-hint">Lần sau mở lại mã từ danh sách sẽ có đúng thiết kế này.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="container layout layout-below">
+      <div class="main-col">
+        <!-- ===== Mã QR động ===== -->
+        <section class="card codes-card" id="ma-dong" aria-labelledby="codesTitle">
+          <div class="codes-head">
+            <div>
+              <h2 id="codesTitle">Mã QR động của tôi</h2>
+              <p id="codesSub">Sửa đích đến sau khi in, xem thống kê lượt quét, quản lý nhiều mã một chỗ.</p>
+            </div>
+            <button type="button" class="btn-primary" id="newCode" hidden><svg class="ic"><use href="#i-plus"/></svg><span>Tạo mã động</span></button>
+          </div>
+
+          <!-- Chưa đăng nhập / chưa có máy chủ: giới thiệu + bảng giá -->
+          <div class="codes-pitch" id="codesPitch">
+            <div class="plans">
+              <div class="plan">
+                <span class="plan-name">Miễn phí</span>
+                <b class="plan-price">0đ</b>
+                <ul>
+                  <li><svg class="ic"><use href="#i-check"/></svg>Mã QR tĩnh không giới hạn, đủ mọi kiểu thiết kế</li>
+                  <li><svg class="ic"><use href="#i-check"/></svg>Tải PNG, SVG, JPG, tạo hàng loạt</li>
+                  <li><svg class="ic"><use href="#i-check"/></svg><span id="planFreeDyn">3 mã động</span>, thống kê 30 ngày</li>
+                  <li><svg class="ic"><use href="#i-check"/></svg>Chuyển hướng riêng cho iPhone / Android</li>
+                </ul>
+              </div>
+              <div class="plan is-pro">
+                <span class="plan-name">Pro <em class="opt-badge">Doanh nghiệp, cửa hàng</em></span>
+                <b class="plan-price"><span id="planProPrice">29.000đ</span><small>/tháng</small></b>
+                <ul>
+                  <li><svg class="ic"><use href="#i-check"/></svg><span id="planProDyn">100 mã động</span>, thống kê đến 400 ngày</li>
+                  <li><svg class="ic"><use href="#i-check"/></svg>Đặt tên đường dẫn riêng (…/q/ten-cua-ban)</li>
+                  <li><svg class="ic"><use href="#i-check"/></svg>Mật khẩu, hẹn ngày tắt, giới hạn lượt quét</li>
+                  <li><svg class="ic"><use href="#i-check"/></svg>Xuất thống kê CSV</li>
+                </ul>
+                <p class="plan-year" id="planYear"></p>
+              </div>
+            </div>
+            <div class="pitch-actions">
+              <button type="button" class="btn-primary" id="pitchLogin"><svg class="ic"><use href="#i-google"/></svg><span>Đăng nhập Google để bắt đầu</span></button>
+              <p class="tf-hint" id="pitchNote"></p>
+              <p class="tf-hint legal-note">Đăng nhập là bạn đồng ý với <a href="dieu-khoan.html">Điều khoản sử dụng</a> và <a href="bao-mat.html">Chính sách bảo mật</a>.</p>
+            </div>
+          </div>
+
+          <!-- Đã đăng nhập: danh sách mã -->
+          <div class="codes-app" id="codesApp" hidden>
+            <div class="quota" id="quota"></div>
+            <div class="codes-toolbar">
+              <label class="search-box"><svg class="ic"><use href="#i-search"/></svg><input type="search" id="codeSearch" placeholder="Tìm theo tên, đường dẫn…" aria-label="Tìm mã"></label>
+              <select class="select" id="folderFilter" aria-label="Lọc theo thư mục"><option value="">Mọi thư mục</option></select>
+            </div>
+            <ul class="code-list" id="codeList"></ul>
+            <p class="codes-empty" id="codesEmpty" hidden>Chưa có mã động nào. Bấm <b>Tạo mã động</b> hoặc nhập đường dẫn ở trên rồi chọn <b>Biến thành mã QR động</b>.</p>
+          </div>
+        </section>
+
+        <!-- ===== Tạo hàng loạt ===== -->
+        <section class="card bulk-card" id="hang-loat" aria-labelledby="bulkTitle">
+          <div class="codes-head">
+            <div>
+              <h2 id="bulkTitle">Tạo hàng loạt</h2>
+              <p>Mỗi dòng một mã, dùng chung thiết kế ở trên. Muốn đặt tên file thì ghi <code>tên file, nội dung</code>.</p>
+            </div>
+          </div>
+          <textarea class="bulk-input" id="bulkInput" rows="6" spellcheck="false" placeholder="ban-so-1, https://quan-cafe.vn/menu?ban=1&#10;ban-so-2, https://quan-cafe.vn/menu?ban=2&#10;https://manhtool.id.vn"></textarea>
+          <div class="bulk-row">
+            <span class="bulk-count" id="bulkCount">0 mã</span>
+            <select class="select" id="bulkFormat" aria-label="Định dạng file"><option value="png">PNG</option><option value="svg">SVG</option><option value="both">PNG + SVG</option></select>
+            <button type="button" class="btn-ghost" id="bulkFile"><svg class="ic"><use href="#i-upload"/></svg><span>Mở file .csv / .txt</span></button>
+            <button type="button" class="btn-primary" id="bulkGo"><svg class="ic"><use href="#i-download"/></svg><span>Tải file ZIP</span></button>
+          </div>
+          <div class="bulk-progress" id="bulkProgress" hidden><span id="bulkBar"></span></div>
+        </section>
+      </div>
+
+      <aside class="side">
+        <section class="card side-card reader" aria-labelledby="readerTitle">
+          <div class="side-head">
+            <span class="side-icon"><svg class="ic"><use href="#i-scan"/></svg></span>
+            <div>
+              <h2 id="readerTitle">Đọc mã QR từ ảnh</h2>
+              <p>Xem mã dẫn tới đâu trước khi mở</p>
+            </div>
+          </div>
+          <div class="reader-drop" id="readerDrop" tabindex="0" role="button" aria-label="Chọn ảnh có mã QR">
+            <svg class="ic"><use href="#i-image"/></svg>
+            <span>Chọn ảnh, kéo thả hoặc dán (Ctrl+V)</span>
+          </div>
+          <div class="reader-out" id="readerOut" hidden></div>
+        </section>
+
+        <section class="card side-card donate">
+          <div class="side-head">
+            <span class="side-icon"><svg class="ic"><use href="#i-heart"/></svg></span>
+            <div>
+              <h2>Ủng hộ ManhTool</h2>
+              <p>Để công cụ luôn miễn phí</p>
+            </div>
+          </div>
+          <button type="button" class="qr-frame" id="qrOpen" aria-label="Phóng to mã QR">
+            <img src="assets/img/donate-qr.png" alt="Mã QR chuyển khoản Techcombank" width="400" height="486" loading="lazy">
+            <span class="qr-zoom"><svg class="ic"><use href="#i-zoom"/></svg>Phóng to</span>
+          </button>
+          <p class="side-note"><svg class="ic"><use href="#i-scan"/></svg>Quét bằng app ngân hàng bất kỳ</p>
+        </section>
+      </aside>
+    </div>
+
+    <section class="container guide" aria-labelledby="guideTitle">
+      <h2 id="guideTitle">Để mã quét tốt khi in</h2>
+      <div class="guide-grid">
+        <div class="guide-item"><code>Tối trên sáng</code><h3>Mã đậm, nền nhạt</h3><p>Màu mã càng tương phản với nền càng dễ quét. Tránh mã màu nhạt trên nền tối.</p></div>
+        <div class="guide-item"><code>≥ 2 cm</code><h3>Đủ lớn</h3><p>In nhỏ nhất khoảng 2×2 cm cho mã ngắn. Mã chứa nhiều chữ hoặc dán xa thì cần to hơn.</p></div>
+        <div class="guide-item"><code>Lề trắng</code><h3>Chừa khoảng trống</h3><p>Để lề quanh mã bằng 4 ô chấm, đừng để chữ hay hình dính sát vào mã.</p></div>
+        <div class="guide-item"><code>Thử quét</code><h3>Kiểm tra trước khi in</h3><p>Bấm "Thử quét" và quét bằng 2–3 điện thoại khác nhau, nhất là khi có logo hay dải màu.</p></div>
+      </div>
+      <p class="privacy"><svg class="ic"><use href="#i-lock"/></svg>Mã QR tĩnh tạo ngay trên trình duyệt, nội dung không gửi đi đâu.</p>
+    </section>
+
+    <!-- ===== Giới thiệu ManhTool + Dịch vụ (khối chung cho mọi công cụ ManhTool) ===== -->
+    <section class="container brand-section" aria-label="Về ManhTool">
+      <div class="brand-card">
+        <img class="brand-logo" src="assets/img/logo-512.png" alt="Logo ManhTool – Công cụ hữu ích, dùng ngay" width="512" height="512" loading="lazy">
+        <div class="brand-body">
+          <span class="eyebrow"><svg class="ic"><use href="#i-sparkles"/></svg>Về chúng tôi</span>
+          <h2>ManhTool — Kho công cụ trực tuyến</h2>
+          <p class="brand-slogan">Những công cụ nhỏ – Tạo nên giá trị lớn.</p>
+          <p>Khám phá kho công cụ trực tuyến giúp bạn làm việc <b>nhanh hơn</b>, <b>đơn giản hơn</b> và <b>hiệu quả hơn</b>.</p>
+          <a class="btn-primary" href="https://manhtool.id.vn">
+            <svg class="ic"><use href="#i-grid"/></svg><span>Xem tất cả công cụ</span><svg class="ic"><use href="#i-arrow-right"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="hire-card">
+        <span class="hire-label">Hợp tác cùng ManhTool</span>
+        <h2>Bạn cần quảng cáo hoặc phát triển website/app?</h2>
+        <p>ManhTool nhận hợp tác quảng cáo, thiết kế và phát triển website, ứng dụng theo yêu cầu.</p>
+        <ul class="hire-services">
+          <li><svg class="ic"><use href="#i-megaphone"/></svg>Hợp tác quảng cáo</li>
+          <li><svg class="ic"><use href="#i-sparkles"/></svg>Thiết kế website</li>
+          <li><svg class="ic"><use href="#i-code"/></svg>Phát triển website, ứng dụng</li>
+        </ul>
+        <a class="hire-phone" href="tel:0988392321">
+          <span class="hp-ico"><svg class="ic"><use href="#i-phone"/></svg></span>
+          <span><small>Liên hệ ngay</small><b>0988 392 321</b></span>
+        </a>
+        <div class="hire-actions">
+          <button class="btn-ghost-light" type="button" data-copy="0988392321"><svg class="ic"><use href="#i-copy"/></svg>Chép số điện thoại</button>
+          <a class="btn-ghost-light" href="https://zalo.me/0988392321" target="_blank" rel="noopener"><svg class="ic"><use href="#i-chat"/></svg>Zalo</a>
+          <a class="btn-ghost-light" href="https://manhtool.id.vn" target="_blank" rel="noopener"><svg class="ic"><use href="#i-globe"/></svg>Xem website</a>
+        </div>
+        <p class="hire-tags">Tư vấn nhanh · Hỗ trợ tận tâm · Giải pháp theo nhu cầu</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <a class="footer-brand" href="https://manhtool.id.vn">
+        <img src="assets/img/mark-192.png" alt="" width="28" height="28">
+        <span><strong>ManhTool</strong> · Những công cụ nhỏ – Tạo nên giá trị lớn.</span>
+      </a>
+      <nav class="footer-links" aria-label="Thông tin">
+        <a href="dieu-khoan.html">Điều khoản</a>
+        <a href="bao-mat.html">Bảo mật</a>
+        <a href="dieu-khoan.html#bao-cao">Báo cáo mã vi phạm</a>
+      </nav>
+      <span class="footer-copy">© 2026 manhtool.id.vn</span>
+    </div>
+  </footer>
+
+  <!-- Hộp tạo / sửa mã động -->
+  <dialog id="codeDialog" class="code-dialog" aria-labelledby="codeDlgTitle">
+    <form id="codeForm" novalidate>
+      <div class="dlg-head">
+        <h2 id="codeDlgTitle">Tạo mã QR động</h2>
+        <button class="icon-btn" type="button" id="codeClose" aria-label="Đóng"><svg class="ic"><use href="#i-x"/></svg></button>
+      </div>
+      <div class="dlg-body">
+        <label class="field">Đường dẫn đích<input type="url" name="target" required placeholder="https://..." inputmode="url" spellcheck="false"></label>
+        <div class="tf-row">
+          <label class="field grow">Tên gợi nhớ<input type="text" name="name" maxlength="80" placeholder="VD: Menu bàn 1"></label>
+          <label class="field grow">Thư mục<input type="text" name="folder" maxlength="40" list="folderList" placeholder="VD: Chi nhánh Cầu Giấy"></label>
+          <datalist id="folderList"></datalist>
+        </div>
+        <details class="tf-more" id="codeDevice">
+          <summary>Đích riêng cho iPhone / Android</summary>
+          <p class="tf-hint">Hợp để mã mở App Store trên iPhone và Google Play trên Android. Để trống thì dùng đường dẫn đích ở trên.</p>
+          <label class="field">Khi quét bằng iPhone, iPad<input type="url" name="iosUrl" placeholder="https://apps.apple.com/..." spellcheck="false"></label>
+          <label class="field">Khi quét bằng Android<input type="url" name="androidUrl" placeholder="https://play.google.com/..." spellcheck="false"></label>
+        </details>
+        <details class="tf-more" id="codePro">
+          <summary>Nâng cao <em class="opt-badge pro-badge">Pro</em></summary>
+          <p class="pro-lock" id="proLock" hidden><svg class="ic"><use href="#i-lock"/></svg><span>Các tùy chọn này cần gói Pro.</span> <button type="button" class="link-btn" id="proLockBuy">Xem gói Pro</button></p>
+          <label class="field">Tên đường dẫn riêng
+            <span class="slug-row"><span class="slug-base" id="slugBase"></span><input type="text" name="slug" maxlength="32" spellcheck="false" placeholder="ten-cua-ban"></span>
+          </label>
+          <div class="tf-row">
+            <label class="field grow">Tự tắt vào ngày<input type="date" name="expiresAt"></label>
+            <label class="field grow">Tắt khi đủ số lượt quét<input type="number" name="scanLimit" min="0" step="1" placeholder="Không giới hạn"></label>
+          </div>
+          <label class="field">Mật khẩu để mở<input type="text" name="password" maxlength="64" placeholder="Để trống nếu không cần" autocomplete="off"></label>
+          <p class="tf-hint" id="pwNote" hidden>Mã đang có mật khẩu. Nhập mật khẩu mới để đổi, hoặc <button type="button" class="link-btn" id="pwClear">bỏ mật khẩu</button>.</p>
+        </details>
+        <div class="code-history" id="codeHistory" hidden>
+          <span class="opt-title">Đích cũ</span>
+          <ul id="codeHistoryList"></ul>
+        </div>
+        <p class="form-error" id="codeError" hidden></p>
+      </div>
+      <div class="dlg-foot">
+        <button type="button" class="btn-ghost" id="codeCancel">Hủy</button>
+        <button type="submit" class="btn-primary" id="codeSubmit"><svg class="ic"><use href="#i-check"/></svg><span>Tạo mã</span></button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Hộp thống kê lượt quét -->
+  <dialog id="statsDialog" class="stats-dialog" aria-labelledby="statsTitle">
+    <div class="dlg-head">
+      <div class="stats-title">
+        <h2 id="statsTitle">Thống kê</h2>
+        <a id="statsLink" target="_blank" rel="noopener"></a>
+      </div>
+      <button class="icon-btn" type="button" id="statsClose" aria-label="Đóng"><svg class="ic"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="dlg-body">
+      <div class="stats-bar">
+        <div class="seg seg-4" role="radiogroup" id="statsRange" aria-label="Khoảng thời gian">
+          <button type="button" role="radio" data-days="7">7 ngày</button>
+          <button type="button" role="radio" data-days="30">30 ngày</button>
+          <button type="button" role="radio" data-days="90">90 ngày</button>
+          <button type="button" role="radio" data-days="365">1 năm</button>
+        </div>
+        <a class="btn-ghost stats-csv" id="statsCsv" download><svg class="ic"><use href="#i-download"/></svg><span>CSV</span></a>
+      </div>
+      <p class="pro-lock" id="statsLimit" hidden><svg class="ic"><use href="#i-lock"/></svg><span>Tài khoản miễn phí xem được 30 ngày gần nhất.</span> <button type="button" class="link-btn" data-buy>Nâng cấp Pro</button></p>
+      <div class="stat-row" id="statsTiles"></div>
+      <div class="chart" id="statsChart" role="img"></div>
+      <div class="breakdowns">
+        <div class="bd"><h3>Hệ điều hành</h3><ul id="bdOs"></ul></div>
+        <div class="bd"><h3>Ứng dụng quét / trình duyệt</h3><ul id="bdBr"></ul></div>
+        <div class="bd"><h3>Thiết bị</h3><ul id="bdDev"></ul></div>
+        <div class="bd" id="bdCcBox"><h3>Quốc gia</h3><ul id="bdCc"></ul></div>
+      </div>
+      <div class="hours">
+        <h3>Giờ trong ngày</h3>
+        <div class="hour-grid" id="hourGrid"></div>
+      </div>
+      <div class="recent">
+        <h3>Lượt quét gần nhất</h3>
+        <ul id="recentList"></ul>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Hộp mua gói Pro: chọn gói → quét QR → kích hoạt -->
+  <dialog id="shopDialog" class="shop-dialog" aria-labelledby="shopTitle">
+    <button class="icon-btn shop-close" type="button" id="shopClose" aria-label="Đóng"><svg class="ic"><use href="#i-x"/></svg></button>
+
+    <section class="shop-view" data-view="choose">
+      <div class="shop-hero"><svg class="ic"><use href="#i-zap"/></svg></div>
+      <div class="shop-body">
+        <h2 id="shopTitle">Nâng cấp Pro</h2>
+        <p class="shop-lead" id="shopLead"></p>
+        <div class="shop-options" id="shopOptions" role="radiogroup" aria-label="Chọn gói"></div>
+        <p class="shop-error" id="shopError" hidden></p>
+        <button class="btn-primary shop-cta" type="button" id="shopBuy"></button>
+        <p class="shop-foot">Thanh toán bằng chuyển khoản ngân hàng (mọi app ngân hàng, ví điện tử có quét VietQR). Kích hoạt ngay khi tiền về. Không tự gia hạn, hết hạn thì mua tiếp nếu cần.</p>
+      </div>
+    </section>
+
+    <section class="shop-view" data-view="pay" hidden>
+      <div class="shop-body">
+        <h2>Quét mã để thanh toán</h2>
+        <p class="shop-lead" id="payTitle"></p>
+        <div class="pay-grid">
+          <div class="pay-qr">
+            <img id="payQr" alt="Mã VietQR thanh toán" width="240" height="240" referrerpolicy="no-referrer">
+            <span class="pay-timer" id="payTimer"></span>
+          </div>
+          <dl class="pay-info">
+            <dt>Ngân hàng</dt><dd id="payBank"></dd>
+            <dt>Số tài khoản</dt><dd><b id="payAcc"></b><button class="copy-mini" type="button" data-copy-from="payAcc" aria-label="Chép số tài khoản"><svg class="ic"><use href="#i-copy"/></svg></button></dd>
+            <dt>Chủ tài khoản</dt><dd id="payName"></dd>
+            <dt>Số tiền</dt><dd><b id="payAmount"></b><button class="copy-mini" type="button" data-copy-from="payAmountRaw" aria-label="Chép số tiền"><svg class="ic"><use href="#i-copy"/></svg></button><span id="payAmountRaw" hidden></span></dd>
+            <dt>Nội dung</dt><dd class="pay-code"><b id="payCode"></b><button class="copy-mini" type="button" data-copy-from="payCode" aria-label="Chép nội dung chuyển khoản"><svg class="ic"><use href="#i-copy"/></svg></button></dd>
+          </dl>
+        </div>
+        <p class="pay-warn">Ghi <b>đúng nội dung</b> như trên để hệ thống tự nhận ra đơn của bạn.</p>
+        <p class="pay-status" id="payStatus"><span class="spinner" aria-hidden="true"></span><span>Đang chờ tiền về… trang tự kích hoạt khi nhận được, không cần làm gì thêm.</span></p>
+        <div class="shop-actions">
+          <button class="btn-ghost" type="button" id="payBack">Đổi gói</button>
+          <button class="btn-ghost" type="button" id="payCancel">Hủy đơn</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="shop-view shop-done" data-view="done" hidden>
+      <div class="done-badge"><svg class="ic"><use href="#i-check"/></svg></div>
+      <h2 id="doneShopTitle">Đã kích hoạt Pro!</h2>
+      <p class="shop-lead" id="doneShopText">Cảm ơn bạn đã ủng hộ ManhTool.</p>
+      <button class="btn-primary shop-cta" type="button" id="shopUse">Bắt đầu dùng</button>
+    </section>
+  </dialog>
+
+  <!-- Hộp tài khoản -->
+  <dialog id="accountDialog" class="account-dialog" aria-labelledby="accName">
+    <div class="acc-head">
+      <img id="accAvatar" class="acc-avatar" alt="" width="56" height="56" referrerpolicy="no-referrer">
+      <div class="acc-id">
+        <div class="acc-name-row" id="accNameRow">
+          <h2 id="accName"></h2>
+          <button class="icon-btn acc-edit" type="button" id="accEditName" title="Đổi tên hiển thị" aria-label="Đổi tên hiển thị"><svg class="ic"><use href="#i-pencil"/></svg></button>
+        </div>
+        <form class="acc-rename" id="accRename" hidden>
+          <input id="accNameInput" type="text" maxlength="100" aria-label="Tên hiển thị">
+          <button class="btn-primary" type="submit">Lưu</button>
+          <button class="btn-ghost" type="button" id="accRenameCancel">Hủy</button>
+        </form>
+        <p id="accEmail"></p>
+      </div>
+      <button class="icon-btn" type="button" id="accClose" aria-label="Đóng"><svg class="ic"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="acc-badges" id="accBadges"></div>
+
+    <section class="acc-box">
+      <span class="acc-sync-dot" aria-hidden="true"></span>
+      <div>
+        <b id="accPlan"></b>
+        <p id="accPlanText"></p>
+      </div>
+      <button class="btn-ghost" type="button" id="accUpgrade" hidden><svg class="ic"><use href="#i-zap"/></svg><span>Nâng cấp</span></button>
+    </section>
+
+    <div class="acc-links">
+      <a class="btn-ghost" id="accCodes" href="#ma-dong"><svg class="ic"><use href="#i-qr"/></svg><span>Mã động của tôi</span></a>
+      <a class="btn-ghost" id="accAdmin" href="/admin" hidden><svg class="ic"><use href="#i-shield"/></svg><span>Trang quản trị</span></a>
+      <a class="btn-ghost" id="accExport" href="/api/me/export" download><svg class="ic"><use href="#i-download"/></svg><span>Tải dữ liệu (.json)</span></a>
+    </div>
+
+    <div class="acc-logout">
+      <div class="acc-links">
+        <button class="btn-primary" type="button" id="accLogout"><svg class="ic"><use href="#i-logout"/></svg><span>Đăng xuất</span></button>
+        <button class="btn-ghost" type="button" id="accLogoutAll">Đăng xuất mọi thiết bị</button>
+      </div>
+    </div>
+
+    <details class="acc-danger">
+      <summary>Xóa tài khoản</summary>
+      <p>Tài khoản và mọi mã QR động sẽ bị xóa vĩnh viễn. Mã động đã in sẽ không còn hoạt động.</p>
+      <label class="acc-confirm"><input type="checkbox" id="accDelConfirm"> Tôi hiểu và muốn xóa tài khoản</label>
+      <button class="btn-danger" type="button" id="accDelete" disabled>Xóa vĩnh viễn</button>
+    </details>
+  </dialog>
+
+  <dialog id="qrDialog" class="qr-dialog" aria-label="Mã QR ủng hộ">
+    <form method="dialog"><button class="icon-btn qr-close" aria-label="Đóng"><svg class="ic"><use href="#i-x"/></svg></button></form>
+    <h2>Ủng hộ ManhTool</h2>
+    <img src="assets/img/donate-qr.png" alt="Mã QR chuyển khoản Techcombank" width="400" height="486">
+    <p>Cảm ơn bạn đã ủng hộ!</p>
+  </dialog>
+
+  <input type="file" id="logoInput" accept="image/png,image/jpeg,image/webp,image/svg+xml,image/gif" hidden>
+  <input type="file" id="readerInput" accept="image/*" hidden>
+  <input type="file" id="bulkInputFile" accept=".csv,.txt,text/csv,text/plain" hidden>
+
+  <!-- Bản in: chỉ in mã QR -->
+  <div class="print-area" id="printArea" aria-hidden="true"></div>
+
+  <aside class="nudge" id="nudge" aria-label="Lời mời hợp tác" hidden>
+    <button class="nudge-close" id="nudgeClose" type="button" aria-label="Đóng"><svg class="ic"><use href="#i-x"/></svg></button>
+    <div class="nudge-head">
+      <img src="assets/img/logo-mark-96.png" alt="ManhTool" width="50" height="30">
+      <p>Cần in mã QR hàng loạt cho cửa hàng, sự kiện?</p>
+    </div>
+    <p class="nudge-text">Đội ngũ Mạnh Nguyễn sẵn sàng tư vấn, thiết kế website và phát triển phần mềm theo nhu cầu của bạn.</p>
+    <div class="nudge-actions">
+      <a class="btn-primary" href="tel:0988392321">Tư vấn ngay</a>
+      <a class="btn-ghost" href="https://zalo.me/0988392321" target="_blank" rel="noopener"><svg class="ic"><use href="#i-chat"/></svg>Zalo</a>
+    </div>
+  </aside>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"><span id="toastMsg"></span><button type="button" id="toastAction" hidden></button></div>
+
+  <script src="assets/js/qr-core.js" defer></script>
+  <script src="assets/js/qr-render.js" defer></script>
+  <script src="assets/js/payloads.js" defer></script>
+  <script src="assets/js/zip.js" defer></script>
+  <script src="assets/js/api.js" defer></script>
+  <script src="assets/js/app.js" defer></script>
+  <script src="assets/js/account.js" defer></script>
+  <script src="assets/js/codes.js" defer></script>
+  <script src="assets/js/shop.js" defer></script>
+</body>
+</html>

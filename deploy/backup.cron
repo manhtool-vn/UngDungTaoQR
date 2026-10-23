@@ -1,0 +1,3 @@
+# crontab -u maqr -e → sao lưu data/db.json lúc 3h sáng mỗi ngày, giữ 14 bản (data/backups/)
+# Nên chép thêm thư mục data/backups/ sang máy khác (rclone, rsync…) để phòng hỏng ổ đĩa.
+0 3 * * * cd /opt/maqr && /usr/bin/node scripts/backup.js >> data/backup.log 2>&1

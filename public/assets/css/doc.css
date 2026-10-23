@@ -1,0 +1,45 @@
+/* =========================================================
+   Trang văn bản: điều khoản sử dụng, chính sách bảo mật, báo cáo mã vi phạm
+   ========================================================= */
+
+.doc-main { padding-top: 32px; padding-bottom: 48px; }
+.doc { max-width: 780px; margin: 0 auto; padding: clamp(20px, 4vw, 40px); }
+.doc-head h1 { font-size: clamp(1.5rem, 2.4vw + .8rem, 2.1rem); font-weight: 800; letter-spacing: -.02em; line-height: 1.2; }
+.doc-updated { margin-top: 6px; font-size: .85rem; color: var(--text-3); }
+.doc-lead { margin-top: 14px; color: var(--text-2); }
+
+.doc .doc-toc { display: flex; flex-direction: row; flex-wrap: wrap; gap: 8px; margin: 22px 0 6px; padding: 0; list-style: none; }
+.doc .doc-toc a {
+  display: inline-flex; align-items: center; height: 32px; padding: 0 12px; border-radius: 999px; font-size: .82rem; font-weight: 600;
+  color: var(--text-2); text-decoration: none; background: var(--surface-2); border: 1px solid var(--border);
+}
+.doc .doc-toc a:hover { color: var(--accent-text); border-color: var(--brand-500); }
+
+.doc section { margin-top: 30px; scroll-margin-top: 80px; }
+.doc h2 { font-size: 1.15rem; font-weight: 800; letter-spacing: -.01em; margin-bottom: 10px; }
+.doc p, .doc li { color: var(--text-2); line-height: 1.65; }
+.doc p + p { margin-top: 10px; }
+.doc ul { margin: 8px 0 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; }
+.doc b, .doc strong { color: var(--text); }
+.doc a { color: var(--accent-text); font-weight: 600; }
+.doc code { padding: 1px 6px; border-radius: 6px; background: var(--surface-2); font-size: .88em; }
+
+/* Bảng cookie */
+.doc-table { width: 100%; margin-top: 10px; border-collapse: collapse; font-size: .88rem; }
+.doc-table th, .doc-table td { padding: 9px 10px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--border); color: var(--text-2); }
+.doc-table th { font-size: .78rem; font-weight: 700; color: var(--text-3); text-transform: uppercase; letter-spacing: .03em; }
+.doc-table td:first-child { white-space: nowrap; }
+.doc-scroll { overflow-x: auto; }
+
+/* Biểu mẫu báo cáo */
+.report-box { margin-top: 14px; padding: 18px; border-radius: var(--r); background: var(--surface-2); border: 1px solid var(--border); }
+.report-form { display: flex; flex-direction: column; gap: 12px; }
+.report-row { display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 600px) { .report-row { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); } }
+.report-form .btn-primary { align-self: flex-start; }
+@media (max-width: 599px) { .report-form .btn-primary { align-self: stretch; } }
+.report-msg { display: flex; gap: 8px; align-items: flex-start; padding: 10px 12px; border-radius: var(--r-sm); font-size: .88rem; font-weight: 600; }
+.report-msg .ic { flex: none; width: 18px; height: 18px; margin-top: 1px; }
+.report-msg.is-ok { background: var(--tint); color: var(--accent-text); }
+.report-msg.is-bad { background: var(--danger-bg); color: var(--danger); }
+.report-tip { margin-top: 12px; font-size: .85rem; }

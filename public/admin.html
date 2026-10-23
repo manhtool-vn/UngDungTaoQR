@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Quản trị — Tạo mã QR</title>
+  <meta name="theme-color" content="#0E7C5A">
+  <link rel="icon" type="image/png" href="assets/img/mark-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/account.css">
+  <script src="assets/js/boot.js"></script>
+</head>
+<body class="admin-page">
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+    <symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></symbol>
+    <symbol id="i-qr" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 20h4v-3"/></symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol>
+    <symbol id="i-list" viewBox="0 0 24 24"><path d="m3 17 2 2 4-4M3 7l2 2 4-4M13 6h8M13 12h8M13 18h8"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></symbol>
+    <symbol id="i-cart" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+    <symbol id="i-flag" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1zM4 22v-7"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+    <symbol id="i-google" viewBox="0 0 24 24"><path d="M21.35 11.1H12v2.9h5.35c-.5 2.5-2.6 3.9-5.35 3.9a6 6 0 1 1 3.9-10.5l2.15-2.15A9 9 0 1 0 21 12c0-.3 0-.6-.05-.9z"/></symbol>
+  </svg>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="./" aria-label="Về trang Tạo mã QR">
+        <img class="brand-mark" src="assets/img/mark-192.png" alt="" width="36" height="36">
+        <span class="brand-name">Manh<span class="brand-accent">Tool</span> <small class="admin-tag">Quản trị</small></span>
+      </a>
+      <nav class="header-actions">
+        <a class="header-link" href="./"><svg class="ic"><use href="#i-arrow-left"/></svg><span>Về trang tạo mã</span></a>
+        <button class="icon-btn" id="themeToggle" type="button" aria-label="Đổi nền sáng/tối" title="Đổi nền sáng/tối">
+          <svg class="ic icon-sun"><use href="#i-sun"/></svg>
+          <svg class="ic icon-moon"><use href="#i-moon"/></svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container admin-main">
+    <!-- Khi chưa đăng nhập / không phải quản trị -->
+    <section class="card admin-gate" id="gate" hidden>
+      <h1 id="gateTitle">Đăng nhập để vào trang quản trị</h1>
+      <p id="gateText">Chỉ tài khoản quản trị mới xem được trang này.</p>
+      <a class="btn-primary btn-google" id="gateLogin" href="/api/auth/google/start?return=/admin"><svg class="ic"><use href="#i-google"/></svg><span>Đăng nhập bằng Google</span></a>
+    </section>
+
+    <div id="app" hidden>
+      <div class="admin-head">
+        <h1>Quản trị</h1>
+        <div class="seg admin-tabs" role="tablist" aria-label="Mục quản trị">
+          <button type="button" role="tab" data-tab="users" aria-selected="true"><svg class="ic"><use href="#i-users"/></svg>Người dùng</button>
+          <button type="button" role="tab" data-tab="codes" aria-selected="false"><svg class="ic"><use href="#i-qr"/></svg>Mã động</button>
+          <button type="button" role="tab" data-tab="reports" aria-selected="false"><svg class="ic"><use href="#i-flag"/></svg>Báo cáo<span class="tab-badge" id="reportBadge" hidden></span></button>
+          <button type="button" role="tab" data-tab="orders" aria-selected="false"><svg class="ic"><use href="#i-cart"/></svg>Đơn hàng</button>
+          <button type="button" role="tab" data-tab="settings" aria-selected="false"><svg class="ic"><use href="#i-settings"/></svg>Cài đặt</button>
+          <button type="button" role="tab" data-tab="audit" aria-selected="false"><svg class="ic"><use href="#i-list"/></svg>Nhật ký</button>
+        </div>
+      </div>
+
+      <div class="stat-row" id="stats"></div>
+
+      <!-- Người dùng -->
+      <section class="card admin-card" data-panel="users">
+        <div class="admin-toolbar">
+          <label class="search-box">
+            <svg class="ic"><use href="#i-search"/></svg>
+            <input type="search" id="q" placeholder="Tìm theo tên hoặc email" aria-label="Tìm người dùng">
+          </label>
+          <span class="admin-count" id="userCount"></span>
+        </div>
+        <div class="table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr><th>Người dùng</th><th>Vai trò</th><th>Gói</th><th>Trạng thái</th><th>Mã động</th><th>Đăng nhập gần nhất</th><th><span class="visually-hidden">Thao tác</span></th></tr>
+            </thead>
+            <tbody id="users"></tbody>
+          </table>
+        </div>
+        <p class="hint-text" id="usersEmpty" hidden>Không có người dùng nào.</p>
+      </section>
+
+      <!-- Mã động: kiểm duyệt -->
+      <section class="card admin-card" data-panel="codes" hidden>
+        <p class="hint-text">Khóa ngay mã trỏ tới trang lừa đảo, cờ bạc, nội dung vi phạm. Người quét mã bị khóa sẽ thấy trang thông báo, chủ mã không bật lại được.</p>
+        <div class="admin-toolbar">
+          <label class="search-box">
+            <svg class="ic"><use href="#i-search"/></svg>
+            <input type="search" id="cq" placeholder="Tìm theo đường dẫn, đích đến, email chủ mã" aria-label="Tìm mã">
+          </label>
+          <span class="admin-count" id="codeCount"></span>
+        </div>
+        <div class="table-wrap">
+          <table class="admin-table">
+            <thead><tr><th>Mã</th><th>Chủ mã</th><th>Đích đến</th><th>Lượt quét</th><th>Trạng thái</th><th>Khóa</th><th><span class="visually-hidden">Thao tác</span></th></tr></thead>
+            <tbody id="codes"></tbody>
+          </table>
+        </div>
+        <p class="hint-text" id="codesEmpty" hidden>Không có mã nào.</p>
+      </section>
+
+      <!-- Báo cáo vi phạm từ người quét -->
+      <section class="card admin-card" data-panel="reports" hidden>
+        <p class="hint-text">Người quét báo cáo mã dẫn tới trang lừa đảo, mã độc… Mở đích đến để kiểm tra (đừng nhập thông tin gì vào trang đó), đúng là vi phạm thì khóa mã. Khóa sớm để trình duyệt không chặn cả tên miền ngắn.</p>
+        <div class="admin-toolbar">
+          <div class="seg order-filter" role="radiogroup" aria-label="Lọc báo cáo">
+            <button type="button" role="radio" data-rstatus="open" aria-checked="true">Đang chờ</button>
+            <button type="button" role="radio" data-rstatus="closed" aria-checked="false">Đã xử lý</button>
+          </div>
+          <span class="admin-count" id="reportCount"></span>
+        </div>
+        <div class="table-wrap">
+          <table class="admin-table">
+            <thead><tr><th>Thời gian</th><th>Mã</th><th>Lý do</th><th>Đích đến</th><th>Chủ mã</th><th>Trạng thái</th><th><span class="visually-hidden">Thao tác</span></th></tr></thead>
+            <tbody id="reports"></tbody>
+          </table>
+        </div>
+        <p class="hint-text" id="reportsEmpty" hidden>Không có báo cáo nào.</p>
+      </section>
+
+      <!-- Đơn hàng -->
+      <section class="card admin-card" data-panel="orders" hidden>
+        <div class="stat-row" id="revenue"></div>
+        <div class="admin-toolbar">
+          <div class="seg order-filter" role="radiogroup" aria-label="Lọc đơn">
+            <button type="button" role="radio" data-ostatus="" aria-checked="true">Tất cả</button>
+            <button type="button" role="radio" data-ostatus="pending" aria-checked="false">Chờ</button>
+            <button type="button" role="radio" data-ostatus="paid" aria-checked="false">Đã trả</button>
+            <button type="button" role="radio" data-ostatus="expired" aria-checked="false">Hết hạn</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="admin-table">
+            <thead><tr><th>Mã</th><th>Người mua</th><th>Gói</th><th>Số tiền</th><th>Trạng thái</th><th>Thời gian</th><th><span class="visually-hidden">Thao tác</span></th></tr></thead>
+            <tbody id="orders"></tbody>
+          </table>
+        </div>
+        <p class="hint-text" id="ordersEmpty" hidden>Chưa có đơn nào.</p>
+        <h2 class="sub-title">Tiền vào chưa khớp đơn</h2>
+        <p class="hint-text">Ghi sai nội dung, chuyển thiếu hoặc chuyển 2 lần. Kiểm tra rồi bấm "Xác nhận" ở đơn tương ứng, hoặc hoàn tiền cho khách.</p>
+        <ul class="audit-list" id="unmatched"></ul>
+      </section>
+
+      <!-- Cài đặt hệ thống -->
+      <section class="card admin-card" data-panel="settings" hidden>
+        <form id="settingsForm" class="settings-form" autocomplete="off">
+          <h2>Đăng nhập bằng Google</h2>
+          <p class="hint-text">Tạo OAuth Client ID loại "Web application" tại Google Cloud Console → APIs &amp; Services → Credentials, rồi thêm Redirect URI bên dưới vào mục "Authorized redirect URIs".</p>
+          <div class="field">
+            <span>Redirect URI</span>
+            <div class="copy-row"><code id="redirectUri"></code><button class="btn-ghost" type="button" data-copy-from="redirectUri"><svg class="ic"><use href="#i-copy"/></svg>Chép</button></div>
+          </div>
+          <label class="field">
+            <span>Client ID <em class="env-note" data-env="clientId" hidden>đang lấy từ .env</em></span>
+            <input type="text" id="sClientId" placeholder="123456789-abc.apps.googleusercontent.com">
+          </label>
+          <label class="field">
+            <span>Client secret <em class="env-note" data-env="clientSecret" hidden>đang lấy từ .env</em></span>
+            <input type="password" id="sClientSecret" placeholder="Để trống nếu không đổi">
+            <small id="secretState"></small>
+          </label>
+          <label class="opt"><input type="checkbox" id="sEnabled"><span class="switch" aria-hidden="true"></span>Bật đăng nhập bằng Google <em class="env-note" data-env="enabled" hidden>đang lấy từ .env</em></label>
+          <p class="google-state" id="googleState"></p>
+
+          <h2>Tài khoản &amp; hạn mức mã động</h2>
+          <label class="opt"><input type="checkbox" id="sRegistration"><span class="switch" aria-hidden="true"></span>Cho phép tạo tài khoản mới</label>
+          <div class="field-row">
+            <label class="field"><span>Mã động cho tài khoản miễn phí</span><input type="number" id="sFree" min="0" max="1000" step="1"></label>
+            <label class="field"><span>Mã động cho tài khoản Pro</span><input type="number" id="sPro" min="1" max="100000" step="1"></label>
+          </div>
+          <div class="field">
+            <span>Địa chỉ in vào mã động</span>
+            <div class="copy-row"><code id="shortBase"></code></div>
+            <small>Đổi bằng SHORT_URL trong .env (nên dùng tên miền ngắn để mã thưa chấm, dễ quét). Mã đã in phải giữ nguyên tên miền này.</small>
+          </div>
+
+          <h2>Thanh toán gói Pro (chuyển khoản VietQR)</h2>
+          <p class="hint-text">Người mua quét mã QR, nội dung chuyển khoản là mã đơn. Khi tiền vào, SePay gọi webhook và gói Pro được cộng thời hạn tự động. Nếu chưa nối SePay, bạn vẫn xác nhận tay được ở thẻ Đơn hàng.</p>
+          <label class="opt"><input type="checkbox" id="pEnabled"><span class="switch" aria-hidden="true"></span>Bật bán gói Pro</label>
+          <div class="field-row">
+            <label class="field"><span>Mã ngân hàng</span><input type="text" id="pBank" placeholder="TCB, MB, VCB, ACB… hoặc mã BIN" maxlength="20"></label>
+            <label class="field"><span>Số tài khoản</span><input type="text" id="pAcc" inputmode="numeric" maxlength="20"></label>
+          </div>
+          <label class="field"><span>Tên chủ tài khoản (không dấu)</span><input type="text" id="pName" maxlength="60" placeholder="NGUYEN VAN A"></label>
+          <div class="field-row">
+            <label class="field"><span>Giá Pro 1 tháng (đ)</span><input type="number" id="pMonth" min="1000" step="1000"></label>
+            <label class="field"><span>Giá Pro 12 tháng (đ)</span><input type="number" id="pYear" min="1000" step="1000"></label>
+          </div>
+          <div class="field">
+            <span>Webhook cho SePay</span>
+            <div class="copy-row"><code id="webhookUrl"></code><button class="btn-ghost" type="button" data-copy-from="webhookUrl"><svg class="ic"><use href="#i-copy"/></svg>Chép</button></div>
+            <small id="webhookState"></small>
+          </div>
+          <p class="google-state" id="payState"></p>
+
+          <div class="form-actions"><button class="btn-primary" type="submit">Lưu cài đặt</button></div>
+        </form>
+      </section>
+
+      <!-- Nhật ký -->
+      <section class="card admin-card" data-panel="audit" hidden>
+        <ul class="audit-list" id="audit"></ul>
+      </section>
+    </div>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"><span id="toastMsg"></span></div>
+  <script src="assets/js/api.js" defer></script>
+  <script src="assets/js/admin.js" defer></script>
+</body>
+</html>
