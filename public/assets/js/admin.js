@@ -115,6 +115,7 @@
         'Tài khoản đăng nhập dùng ngay mọi tính năng Pro; hộp Tài khoản ghi "Gói Pro miễn phí"',
         'Popup giới thiệu doansinhvien24h (gia sư lập trình, kho đồ án) cho người dùng bản miễn phí; cuối trang có dòng "Đồng hành cùng doansinhvien24h" để mở lại'
       ],
+      gateAction: 'tải mã QR', gateWhere: 'tải PNG, SVG, JPG, chép ảnh mã QR, tải file ZIP hàng loạt',
       load: function () { return promoCall('GET', '/admin/promo'); },
       saveFree: function (f) { return promoCall('PUT', '/admin/promo/free', { free: f }); },
       saveBrand: function (b) { return promoCall('PUT', '/admin/promo/brand', { brand: b }); },

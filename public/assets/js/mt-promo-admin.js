@@ -9,6 +9,7 @@
      saveFree(f), // f = null để tắt → như load()
      saveBrand(b),// → { brand }
      announce(f, brand), // xem thử thông báo đúng như người dùng thấy
+     gateAction, gateWhere, // "xem xong mới được …": tên việc + nơi áp dụng (hiện trong phần cài đặt)
      toast(msg, err)
    }) */
 (function () {
@@ -30,6 +31,7 @@
     search: 'Tìm kiếm', users: 'Mọi người', zap: 'Tia chớp', book: 'Sách', clock: 'Đồng hồ',
   };
   const FREQ = [['always', 'Mỗi lần mở trang'], ['session', 'Mỗi phiên trình duyệt'], ['day', 'Mỗi ngày một lần']];
+  const GATE = [['off', 'Tắt — không bắt xem'], ['always', 'Lần nào cũng phải xem'], ['session', 'Mỗi phiên trình duyệt một lần'], ['day', 'Mỗi ngày một lần']];
 
   function mount(el, o) {
     let state = { free: null, running: false, brand: null, stats: [] };
@@ -108,6 +110,11 @@
               <label class="mpa-field"><span>Màu chủ đạo</span><input type="color" name="color" value="${esc(b.color)}"></label>
             </div>
             <label class="mpa-check"><input type="checkbox" name="scrollClose"${b.scrollClose ? ' checked' : ''}><span><b>Phải cuộn xuống hết mới đóng được</b><small>Chỉ áp dụng khi có đặt thời gian chờ</small></span></label>
+            <div class="mpa-row">
+              <label class="mpa-field"><span>Xem xong mới được ${esc(o.gateAction || 'dùng tính năng miễn phí')}</span><select name="gate">${GATE.map(([k, t]) => `<option value="${k}"${b.gate === k ? ' selected' : ''}>${t}</option>`).join('')}</select></label>
+              <label class="mpa-field"><span>Số giây phải xem</span><input type="number" name="gateSec" min="1" max="15" value="${b.gateSec}"></label>
+            </div>
+            ${o.gateWhere ? `<small class="mpa-help">Áp dụng khi: ${esc(o.gateWhere)}. Người đã xem lời giới thiệu trong khoảng này (kể cả popup tự hiện) được cho qua ngay; tài khoản trả tiền và quản trị viên không bị hỏi.</small>` : ''}
             <div class="mpa-actions">
               <button type="submit" class="mpa-btn mpa-primary">Lưu lời giới thiệu</button>
               <button type="button" class="mpa-btn" data-act="pv">${P.icon('sparkles')}Xem thử popup</button>
@@ -142,7 +149,7 @@
         enabled: g('enabled').checked, name: g('name').value, tagline: g('tagline').value, logo: g('logo').value, about: g('about').value,
         phone: g('phone').value, zalo: g('zalo').value, email: g('email').value, website: g('website').value, facebook: g('facebook').value,
         ctaLabel: g('ctaLabel').value, ctaUrl: g('ctaUrl').value, delay: g('delay').value, frequency: g('frequency').value, lock: g('lock').value,
-        color: g('color').value, scrollClose: g('scrollClose').checked, products: readProds(),
+        color: g('color').value, scrollClose: g('scrollClose').checked, products: readProds(), gate: g('gate').value, gateSec: g('gateSec').value,
       }, o.base);
     }
     function readFree() {

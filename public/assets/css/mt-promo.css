@@ -153,6 +153,13 @@ html.mp-open { overflow: hidden; }
 .mp-cta .mp-i { font-size: 18px; }
 .mp-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 12px; font-size: 13px; }
 .mp-foot a { display: inline-flex; align-items: center; gap: 4px; color: var(--mp-accent); font-weight: 700; text-decoration: none; }
+/* xem xong mới tiếp tục: nút chính rộng hết, mờ khi đang đếm giờ */
+.mp-foot-gate { position: sticky; bottom: 0; z-index: 3; display: block; margin: 12px -20px -16px; padding: 22px 20px calc(16px + env(safe-area-inset-bottom)); background: linear-gradient(transparent, var(--mp-bg) 34%); }
+.mp-continue { display: flex; width: 100%; align-items: center; justify-content: center; gap: 8px; padding: 14px 16px; border: 0; border-radius: 14px; cursor: pointer;
+  background: linear-gradient(135deg, var(--mp-d), var(--mp) 55%, var(--mp-l)); color: var(--mp-on); font-family: inherit; font-size: 16px; font-weight: 800; line-height: 1.3; box-shadow: 0 10px 24px color-mix(in srgb, var(--mp) 40%, transparent); transition: filter .2s, opacity .2s; }
+.mp-continue:disabled { cursor: not-allowed; opacity: .55; box-shadow: none; font-variant-numeric: tabular-nums; }
+.mp-continue:not(:disabled):hover { filter: brightness(1.06); }
+.mp-continue .mp-i { font-size: 18px; }
 .mp-later { border: 0; background: none; color: var(--mp-text-2); font: inherit; font-weight: 600; cursor: pointer; padding: 6px 4px; white-space: nowrap; }
 .locked .mp-later { color: var(--mp-text-3); cursor: not-allowed; font-variant-numeric: tabular-nums; }
 @media (max-width: 380px) { .mp-perks { grid-template-columns: minmax(0, 1fr); } .mp-hero h2 { font-size: 21px; } .mp-brand b { font-size: 20px; } }

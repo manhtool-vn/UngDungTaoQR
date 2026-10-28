@@ -393,12 +393,12 @@
                 <option value="2048">2048 px</option>
                 <option value="4096">4096 px</option>
               </select>
-              <button type="button" class="btn-primary dl-main" id="dlPng"><svg class="ic"><use href="#i-download"/></svg><span>Tải PNG</span></button>
-              <button type="button" class="btn-ghost" id="dlSvg" title="Ảnh vector, phóng to bao nhiêu cũng nét, hợp cho in ấn"><span>SVG</span></button>
+              <button type="button" class="btn-primary dl-main" id="dlPng" data-mp-gate="tải mã QR"><svg class="ic"><use href="#i-download"/></svg><span>Tải PNG</span></button>
+              <button type="button" class="btn-ghost" id="dlSvg" data-mp-gate="tải mã QR" title="Ảnh vector, phóng to bao nhiêu cũng nét, hợp cho in ấn"><span>SVG</span></button>
             </div>
             <div class="dl-more">
-              <button type="button" class="chip" id="btnCopyImg"><svg class="ic"><use href="#i-copy"/></svg>Chép ảnh</button>
-              <button type="button" class="chip" id="btnJpg"><svg class="ic"><use href="#i-image"/></svg>JPG</button>
+              <button type="button" class="chip" id="btnCopyImg" data-mp-gate="chép ảnh mã QR"><svg class="ic"><use href="#i-copy"/></svg>Chép ảnh</button>
+              <button type="button" class="chip" id="btnJpg" data-mp-gate="tải mã QR"><svg class="ic"><use href="#i-image"/></svg>JPG</button>
               <button type="button" class="chip" id="btnPrint"><svg class="ic"><use href="#i-printer"/></svg>In</button>
               <button type="button" class="chip" id="btnCheck" title="Giải mã thử ảnh vừa thiết kế để chắc chắn điện thoại đọc được"><svg class="ic"><use href="#i-scan"/></svg>Thử quét</button>
             </div>
@@ -491,7 +491,7 @@
             <span class="bulk-count" id="bulkCount">0 mã</span>
             <select class="select" id="bulkFormat" aria-label="Định dạng file"><option value="png">PNG</option><option value="svg">SVG</option><option value="both">PNG + SVG</option></select>
             <button type="button" class="btn-ghost" id="bulkFile"><svg class="ic"><use href="#i-upload"/></svg><span>Mở file .csv / .txt</span></button>
-            <button type="button" class="btn-primary" id="bulkGo"><svg class="ic"><use href="#i-download"/></svg><span>Tải file ZIP</span></button>
+            <button type="button" class="btn-primary" id="bulkGo" data-mp-gate="tải file ZIP"><svg class="ic"><use href="#i-download"/></svg><span>Tải file ZIP</span></button>
           </div>
           <div class="bulk-progress" id="bulkProgress" hidden><span id="bulkBar"></span></div>
         </section>

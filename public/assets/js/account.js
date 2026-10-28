@@ -218,6 +218,8 @@
       // Quản trị viên không bị tự hiện (vẫn bấm dải xanh để xem)
       if (!admin) P.scheduleAnnounce(free, brand, announceOpts(free));
     }
+    // Xem xong lời giới thiệu mới tải / chép ảnh mã QR (nút có data-mp-gate) — tài khoản trả tiền và quản trị viên được miễn
+    if (brand) P.gateClicks(brand, { exempt: function () { var x = st.user; return !!(x && (x.paid || x.role === 'admin')); } });
     // Tài khoản đã trả tiền không thấy lời giới thiệu
     if (brand && !(u && u.paid)) {
       var kick = free ? 'Mở Pro miễn phí, đồng hành cùng' : 'Tạo mã QR miễn phí, đồng hành cùng';

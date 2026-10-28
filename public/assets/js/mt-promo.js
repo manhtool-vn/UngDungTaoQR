@@ -17,6 +17,8 @@
      MTPromo.bar(free, o)               — dải xanh đầu trang "Đang mở miễn phí … còn …", bấm để mở lại thông báo
      MTPromo.chip(brand, host, o)       — dòng nhỏ "Đồng hành cùng doansinhvien24h", bấm để mở lại lời giới thiệu
      MTPromo.rich(text)                 — **đậm**, đoạn, gạch đầu dòng, :tên-icon: → HTML an toàn
+     MTPromo.gate(brand, { action })    — xem xong lời giới thiệu mới tiếp tục (Promise); brand.gate = tần suất, brand.gateSec = số giây
+     MTPromo.gateClicks(brand, o)       — tự áp gate cho mọi nút có data-mp-gate="<việc>"; o.exempt() = true thì cho qua
    Trang tĩnh: <script src="mt-promo.js" data-app="tool" data-logo="assets/img/dsv24h.svg" defer> tự hẹn giờ popup,
    gắn dòng nhỏ vào phần tử [data-mp-chip]. Thêm ?mt-promo vào địa chỉ để xem ngay. */
 (function (root, factory) {
@@ -61,6 +63,9 @@
       // delay: hiện sau bao nhiêu giây trang hiển thị · frequency: always | session | day
       // lock: số giây phải chờ mới đóng được · scrollClose: phải cuộn xuống hết mới đóng (đi kèm lock)
       delay: 30, frequency: 'day', lock: 3, color: BRAND_COLOR, scrollClose: false,
+      // gate: bắt xem lời giới thiệu trước khi dùng tính năng miễn phí (lưu, tải, sao chép…) — off | always | session | day
+      // gateSec: số giây phải xem trước khi nút "Tiếp tục" bấm được
+      gate: 'day', gateSec: 5,
     }, suggest(app));
   }
 
@@ -116,6 +121,7 @@
   const safeImg = (v) => { const u = str(v, 200); return /^(?!\/\/)[\w./-]+\.(png|jpe?g|webp|svg)$/i.test(u) && !u.includes('..') ? u : ''; };
   const phone = (v) => { const p = str(v, 20).replace(/[^\d+]/g, ''); return /^\+?\d{8,15}$/.test(p) ? p : ''; };
   const FREQ = ['always', 'session', 'day'];
+  const GATES = ['off', 'always', 'session', 'day'];
 
   function normalizeBrand(b, base) {
     b = b && typeof b === 'object' ? b : {};
@@ -139,6 +145,8 @@
       lock: num(b.lock, 0, 15, base.lock),
       color: /^#[0-9a-f]{6}$/i.test(String(b.color || '')) ? String(b.color).toLowerCase() : base.color,
       scrollClose: b.scrollClose == null ? !!base.scrollClose : !!b.scrollClose,
+      gate: GATES.includes(b.gate) ? b.gate : (base.gate || 'off'),
+      gateSec: num(b.gateSec, 1, 15, base.gateSec || 5),
     };
   }
 
@@ -226,6 +234,19 @@
       if (freq === 'day') localStorage.setItem(KEY + scope, String(Date.now()));
     } catch (e) { /* bỏ qua */ }
   }
+  // Đã xem lời giới thiệu (đóng popup sau khi hết giờ chờ) — "xem xong mới tiếp tục" cho qua ngay trong khoảng tần suất
+  const VIEW = 'mt_promo_viewed';
+  function viewed(freq) {
+    if (freq === 'off') return true;
+    if (freq === 'always') return false;
+    try {
+      if (freq === 'session') return !!sessionStorage.getItem(VIEW);
+      return Date.now() - Number(localStorage.getItem(VIEW) || 0) < 86400e3;
+    } catch (e) { return false; }
+  }
+  function markViewed() {
+    try { sessionStorage.setItem(VIEW, '1'); localStorage.setItem(VIEW, String(Date.now())); } catch (e) { /* bỏ qua */ }
+  }
   // người dùng đang gõ / bấm thì chưa hiện (đợi rảnh tay 2,5 giây) — không chen ngang lúc đang làm việc
   let lastInput = 0;
   ['keydown', 'input', 'pointerdown', 'wheel', 'touchmove'].forEach((ev) => document.addEventListener(ev, () => { lastInput = Date.now(); }, { capture: true, passive: true }));
@@ -259,6 +280,7 @@
       <button type="button" class="mp-x" aria-label="Đóng">${icon('x')}</button>${html}
       <div class="mp-scrollhint" aria-hidden="true"><span>Cuộn xuống để đọc hết &amp; đóng</span><i>${icon('arrow-down')}</i></div></div>`;
     const card = bd.querySelector('.mp-card'); const x = bd.querySelector('.mp-x'); const later = bd.querySelector('.mp-later');
+    const cont = bd.querySelector('.mp-continue'); const contText = cont ? cont.textContent : '';
     const prevFocus = document.activeElement;
     let left = Math.max(0, Math.round(lock || 0)); let iv = 0;
     let read = !scroll;
@@ -272,7 +294,7 @@
       if (!bd.isConnected || bd.classList.contains('out')) return;
       clearInterval(iv);
       bd.classList.add('out'); bd.classList.remove('in');
-      document.removeEventListener('keydown', onKey);
+      window.removeEventListener('keydown', onKey, true);
       document.documentElement.classList.remove('mp-open');
       setTimeout(() => bd.remove(), 320);
       if (current && current.bd === bd) current = null;
@@ -285,15 +307,18 @@
         x.innerHTML = `<svg class="mp-ring" viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="15"/><circle class="p" cx="18" cy="18" r="15" style="stroke-dasharray:${RING.toFixed(1)};stroke-dashoffset:${(RING * (1 - left / lock)).toFixed(1)}"/></svg><b>${left}</b>`;
         x.setAttribute('aria-label', `Đóng được sau ${left} giây`); x.setAttribute('aria-disabled', 'true');
         if (later) later.textContent = `Đóng được sau ${left} giây`;
+        if (cont) cont.querySelector('span').textContent = `Đọc thêm ${left} giây…`;
       } else if (!read) {
         x.innerHTML = icon('arrow-down', 'mp-down'); x.setAttribute('aria-label', 'Cuộn xuống hết để đóng'); x.setAttribute('aria-disabled', 'true');
         if (later) later.textContent = 'Cuộn xuống hết để đóng';
       } else {
         x.innerHTML = icon('x'); x.setAttribute('aria-label', 'Đóng'); x.removeAttribute('aria-disabled');
         if (later) later.textContent = 'Để sau';
+        if (cont) cont.querySelector('span').textContent = contText;
         if (card.classList.contains('locked')) { card.classList.remove('locked'); card.classList.add('unlocked'); }
       }
       card.classList.toggle('need-scroll', !read);
+      if (cont) cont.disabled = blocked();
     };
     if (blocked()) {
       card.classList.add('locked'); paint();
@@ -305,7 +330,7 @@
     };
     if (!read) { card.addEventListener('scroll', checkRead, { passive: true }); requestAnimationFrame(() => requestAnimationFrame(checkRead)); }
     const onKey = (e) => {
-      if (e.key === 'Escape') { e.stopPropagation(); close(); }
+      if (e.key === 'Escape') { e.preventDefault(); e.stopImmediatePropagation(); close(); }
       // giữ Tab trong hộp thoại
       if (e.key === 'Tab') {
         const f = [...card.querySelectorAll('a[href], button:not([disabled])')].filter((n) => n.offsetParent !== null);
@@ -315,10 +340,11 @@
       }
     };
     bd.addEventListener('click', (e) => {
-      if (e.target === bd || e.target.closest('.mp-x, .mp-later')) return close();
+      if (e.target === bd || e.target.closest('.mp-x, .mp-later, .mp-continue')) return close();
       if (e.target.closest('[data-close]')) close(true); // nút hành động chính luôn bấm được
     });
-    document.addEventListener('keydown', onKey);
+    // bắt phím trước mọi hộp thoại của trang: Esc chỉ tác động lên popup đang nằm trên cùng
+    window.addEventListener('keydown', onKey, true);
     document.body.appendChild(bd);
     document.documentElement.classList.add('mp-open');
     requestAnimationFrame(() => bd.classList.add('in'));
@@ -360,14 +386,18 @@
   function show(b, o = {}) {
     if (!b) return null;
     const ctx = o.context || 'app';
-    const kick = ctx === 'preview' ? 'Xem thử — người dùng bản miễn phí sẽ thấy' : (o.kick || 'Bản miễn phí, đồng hành cùng');
-    const foot = o.foot === false ? '<span></span>'
-      : `<a href="${esc((o.foot && o.foot.href) || LANDING)}" target="_blank" rel="noopener">${esc((o.foot && o.foot.label) || 'Xem lộ trình học')} ${icon('arrow-right')}</a>`;
+    const kick = ctx === 'preview' ? 'Xem thử — người dùng bản miễn phí sẽ thấy'
+      : o.gate ? `Đọc nhanh rồi ${o.action || 'tiếp tục'} nhé` : (o.kick || 'Bản miễn phí, đồng hành cùng');
+    const foot = o.gate ? `<button type="button" class="mp-continue"><span>Tiếp tục ${esc(o.action || '')}</span>${icon('arrow-right')}</button>`
+      : o.foot === false ? '<span></span>'
+        : `<a href="${esc((o.foot && o.foot.href) || LANDING)}" target="_blank" rel="noopener">${esc((o.foot && o.foot.label) || 'Xem lộ trình học')} ${icon('arrow-right')}</a>`;
+    const lock = o.lock != null ? o.lock : o.force ? 0 : lockOf(b);
     const d = dialog(`<div class="mp-hero mp-hero-b"><span class="mp-tag">${icon('gift')}${esc(kick)}</span>
         <div class="mp-brand">${logoHtml(b)}<div><b>${esc(b.name)}</b>${b.tagline ? `<small>${esc(b.tagline)}</small>` : ''}</div></div></div>
       <div class="mp-pad">${bodyHtml(b)}
-        <div class="mp-foot">${foot}<button type="button" class="mp-later">Để sau</button></div></div>`,
-    { label: 'Giới thiệu ' + b.name, color: colorOf(b), lock: o.force ? 0 : lockOf(b), scroll: !o.force && !!b.scrollClose && lockOf(b) > 0 });
+        <div class="mp-foot${o.gate ? ' mp-foot-gate' : ''}">${foot}${o.gate ? '' : '<button type="button" class="mp-later">Để sau</button>'}</div></div>`,
+    { label: 'Giới thiệu ' + b.name, color: colorOf(b), lock, scroll: !o.force && !o.gate && !!b.scrollClose && lock > 0,
+      onClose: () => { if (ctx !== 'preview') markViewed(); if (o.onClose) o.onClose(); } });
     if (ctx !== 'preview') { hideNudge(); if (!o.force) mark(b.frequency, o.scope || 'brand'); }
     return d;
   }
@@ -399,7 +429,8 @@
         ${o.note ? `<p class="mp-note">${esc(o.note)}</p>` : ''}
         ${about}
         <div class="mp-foot"><span></span><button type="button" class="mp-later">Để sau</button></div>
-      </div>`, { cls: 'mp-ann', label: o.title || 'Chương trình miễn phí', color: colorOf(b), lock: o.force || !b ? 0 : lockOf(b), scroll: !o.force && !!b && b.scrollClose && lockOf(b) > 0 });
+      </div>`, { cls: 'mp-ann', label: o.title || 'Chương trình miễn phí', color: colorOf(b), lock: o.force || !b ? 0 : lockOf(b), scroll: !o.force && !!b && b.scrollClose && lockOf(b) > 0,
+      onClose: () => { if (b && b.enabled !== false) markViewed(); } });
     const go = d.el.querySelector('.mp-go');
     go.addEventListener('click', (e) => {
       if (!href(cta.href) || cta.href === '#') e.preventDefault();
@@ -460,6 +491,33 @@
     return c;
   }
 
+  // ---------- xem xong mới tiếp tục (lưu thiệp, tải mã QR, sao chép kết quả…) ----------
+  // Popup giới thiệu có đồng hồ đếm ngược b.gateSec giây; hết giờ nút "Tiếp tục …" mới bấm được, đóng popup = tiếp tục.
+  // Đã xem lời giới thiệu trong khoảng tần suất b.gate (kể cả popup tự hiện) thì cho qua ngay. Trả về Promise.
+  function gate(b, o = {}) {
+    const freq = (b && b.gate) || 'off';
+    if (!b || b.enabled === false || viewed(freq)) return Promise.resolve(true);
+    return new Promise((resolve) => {
+      show(b, Object.assign({}, o, { gate: true, force: false, lock: Math.max(1, Math.min(15, Number(b.gateSec) || 5)), onClose: () => resolve(true) }));
+    });
+  }
+  // Gắn cho mọi nút có data-mp-gate="<việc>" (VD "sao chép kết quả"): chặn cú bấm đầu, hiện popup, xem xong thì bấm lại nút
+  // đó giúp người dùng (vẫn trong cú bấm thật nên sao chép / tải về chạy bình thường). o.exempt() = true thì cho qua.
+  let gating = false;
+  function gateClicks(b, o = {}) {
+    if (!b || gating) return;
+    gating = true;
+    let passing = false;
+    document.addEventListener('click', (e) => {
+      if (passing || !e.isTrusted) return;
+      const t = e.target && e.target.closest && e.target.closest('[data-mp-gate]');
+      if (!t || t.disabled || b.enabled === false || viewed(b.gate || 'off') || (o.exempt && o.exempt())) return;
+      e.preventDefault(); e.stopImmediatePropagation();
+      if (current) return;
+      gate(b, { action: t.dataset.mpGate, scope: o.scope }).then(() => { passing = true; try { t.click(); } finally { passing = false; } });
+    }, true);
+  }
+
   // ---------- trang tĩnh: tự chạy theo thuộc tính của thẻ <script> ----------
   const me = document.currentScript;
   if (me && me.dataset.app) {
@@ -468,11 +526,15 @@
       if (me.dataset.delay) b.delay = Number(me.dataset.delay) || b.delay;
       const o = { kick: me.dataset.kick || 'Công cụ miễn phí, đồng hành cùng', scope: 'tool' };
       document.querySelectorAll('[data-mp-chip]').forEach((h) => chip(b, h, Object.assign({ label: 'Công cụ miễn phí, đồng hành cùng' }, o)));
+      // data-gate: off | always | session | day (mặc định mỗi ngày) · data-gate-sec: số giây phải xem
+      if (me.dataset.gate) b.gate = me.dataset.gate;
+      if (me.dataset.gateSec) b.gateSec = Number(me.dataset.gateSec) || b.gateSec;
+      gateClicks(b, { scope: 'tool' });
       if (/[?&#]mt-promo\b/.test(location.search + location.hash)) show(b, Object.assign({}, o, { force: true }));
       else schedule(b, o);
     };
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
   }
 
-  return Object.assign(core, { show, schedule, announce, scheduleAnnounce, bar, chip, isOpen: () => !!current });
+  return Object.assign(core, { show, schedule, announce, scheduleAnnounce, bar, chip, gate, gateClicks, viewed, isOpen: () => !!current });
 });
