@@ -38,21 +38,31 @@
   const GREEN = '#0e7c5a';
   const BRAND_COLOR = '#3b4fa8'; // xanh navy lấy từ logo doansinhvien24h — nổi bật trên giao diện xanh lá của ManhTool
   const SERVICES = [
-    { icon: 'users', name: 'Gia sư lập trình 1-1 & nhóm', desc: 'Frontend, backend, fullstack theo lộ trình riêng, học bằng dự án thật, có người review code', url: LANDING },
-    { icon: 'book', name: 'Kho đồ án CNTT doansinhvien24h', desc: 'Đồ án, bài tập lớn, source code có demo: Node.js, React, Laravel, Spring Boot', url: 'https://doansinhvien24h.vn/projects' },
-    { icon: 'globe', name: 'Làm website, app chuẩn SEO', desc: 'Senior Web Developer nhận làm web, app theo yêu cầu: chạy nhanh, chuẩn SEO, dễ mở rộng', url: LANDING + '#lam-web' },
+    { icon: 'users', name: 'Gia sư lập trình Web 1-1 & nhóm', desc: 'Java, Python, JavaScript… học bằng dự án thật, lịch học linh hoạt', url: LANDING },
+    { icon: 'book', name: 'Kho đồ án CNTT doansinhvien24h', desc: 'Đồ án, bài tập lớn có demo chạy sẵn, bàn giao đầy đủ, hỗ trợ cài đặt', url: 'https://doansinhvien24h.vn/projects' },
+    { icon: 'globe', name: 'Làm website, app chuẩn SEO', desc: 'Web bán hàng, giới thiệu doanh nghiệp: đẹp, chạy nhanh, dễ lên Google', url: LANDING + '#lam-web' },
   ];
+  // Câu mở đầu gắn với đúng trang người dùng đang xem: thấy sản phẩm đẹp → tò mò "mình có làm được không?"
+  const HOOKS = {
+    hengio: 'Muốn tự làm được ứng dụng như Hẹn giờ này?',
+    qr: 'Muốn tự làm được trang tạo mã QR như thế này?',
+    ghichu: 'Muốn tự làm được app ghi chú như thế này?',
+    lich: 'Muốn tự làm được trang lịch vạn niên như thế này?',
+    quayso: 'Muốn tự làm được trò quay số như thế này?',
+    tool: 'Muốn tự làm được công cụ như thế này?',
+  };
 
-  // app: dự án đang hiện popup (hengio, qr, ghichu, lich, quayso, tool) — hiện mọi dự án dùng chung một nội dung
-  function suggest() {
+  // app: dự án đang hiện popup (hengio, qr, ghichu, lich, quayso, tool) — câu mở đầu theo dự án, phần còn lại dùng chung.
+  // Nói lợi ích, ít thuật ngữ: chi tiết công nghệ để người học hỏi khi nhắn Zalo.
+  function suggest(app) {
     return {
-      tagline: 'Gia sư lập trình · Kho đồ án CNTT · Web chuẩn SEO',
+      tagline: 'Gia sư lập trình Web · Kho đồ án CNTT · Làm web chuẩn SEO',
       about: [
-        '**Code giỏi thật sự — học 1-1 cùng Senior Web Developer**',
-        'Công cụ ManhTool miễn phí và sẽ luôn miễn phí. Người làm ra chúng nhận **gia sư lập trình 1-1 hoặc theo nhóm**: frontend, backend, fullstack — học bằng dự án thật, có người review từng dòng code.\n- Python, JavaScript, Java\n- MySQL, SQL Server, PostgreSQL, MongoDB, Redis\n- ORM, JWT, OAuth, Microservices, SEO kỹ thuật',
-        ':graduation: **Sinh viên CNTT?** Kho đồ án, bài tập lớn có demo tại **doansinhvien24h.vn**, kèm định hướng đề tài, hướng dẫn khoá luận và báo cáo để bạn tự tin bảo vệ.',
+        `**${HOOKS[app] || HOOKS.tool}**`,
+        'Mình nhận **gia sư lập trình Web** 1 kèm 1 hoặc nhóm nhỏ với Java, Python, JavaScript… Học bằng dự án thật như chính trang bạn đang dùng, chỗ nào vướng có người gỡ ngay.\n- Mất gốc vẫn học được, lộ trình theo đúng trình độ của bạn\n- Có sản phẩm thật bỏ vào CV, tự tin đi phỏng vấn\n- Kèm đồ án, khoá luận đến tận ngày bảo vệ',
+        ':graduation: **Sinh viên CNTT cần gấp?** Kho đồ án có demo chạy sẵn tại **doansinhvien24h.vn**.',
       ].join('\n\n'),
-      ctaLabel: 'Nhắn Zalo tư vấn lộ trình miễn phí',
+      ctaLabel: 'Nhắn Zalo nhận lộ trình miễn phí',
       products: SERVICES.map((p) => Object.assign({}, p)),
     };
   }
