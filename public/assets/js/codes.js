@@ -38,7 +38,12 @@
     var shop = cfg && cfg.shop;
     $('planFreeDyn').textContent = (cfg ? cfg.freeLimit : 3) + ' mã động';
     $('planProDyn').textContent = (cfg ? num(cfg.proLimit) : '100') + ' mã động';
-    if (shop) {
+    var free = window.MTPromo && cfg ? window.MTPromo.freeOn(cfg.free) : null;
+    if (shop && free) {
+      // Đang mở miễn phí: giá gốc gạch ngang
+      $('planProPrice').innerHTML = '<s>' + money(shop.month.price) + '</s> 0đ';
+      $('planYear').textContent = 'Đang mở miễn phí' + (free.endsAt ? ' đến ' + new Date(free.endsAt).toLocaleString('vi-VN', { hour: '2-digit', minute: '2-digit', day: 'numeric', month: 'numeric' }) : '') + ' — đăng nhập là dùng được ngay';
+    } else if (shop) {
       $('planProPrice').textContent = money(shop.month.price);
       $('planYear').textContent = 'Hoặc ' + money(shop.year.price) + ' cho 12 tháng (tiết kiệm ' + Math.max(0, Math.round((1 - shop.year.price / (shop.month.price * 12)) * 100)) + '%)';
     }

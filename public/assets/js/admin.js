@@ -92,8 +92,44 @@
       if (b.dataset.tab === 'codes') loadCodes();
       if (b.dataset.tab === 'reports') loadReports();
       if (b.dataset.tab === 'users') loadUsers();
+      if (b.dataset.tab === 'promo') loadPromo();
     });
   });
+
+  /* ---------- Miễn phí & giới thiệu ---------- */
+  function promoCall(method, path, body) {
+    return api(method, path, body).then(function (r) {
+      if (!r.ok) throw new Error((r.data && r.data.error) || 'Lỗi máy chủ');
+      return r.data;
+    });
+  }
+  function loadPromo() {
+    var P = window.MTPromo;
+    window.MTPromoAdmin.mount($('promoAdmin'), {
+      base: P.defaults('qr', '/assets/img/mark-192.png'),
+      features: [{ key: 'pro', label: 'Toàn bộ tính năng Pro', hint: 'Thêm mã động, đặt tên đường dẫn, mật khẩu, hẹn ngày tắt, giới hạn lượt quét, thống kê 400 ngày, xuất CSV' }],
+      keepLabel: 'Tài khoản đăng nhập trong thời gian miễn phí được giữ Pro vĩnh viễn. Dù tắt ô này, mã động tạo lúc miễn phí vẫn không bao giờ bị tạm dừng.',
+      where: [
+        'Trang chính: dải xanh đếm ngược ở đầu trang, thông báo tự hiện một lần mỗi phiên',
+        'Bảng giá: giá gói Pro gạch ngang, ghi "Đang mở miễn phí đến …"',
+        'Tài khoản đăng nhập dùng ngay mọi tính năng Pro; hộp Tài khoản ghi "Gói Pro miễn phí"',
+        'Popup giới thiệu ManhTool cho người dùng bản miễn phí; cuối trang có dòng "Bản miễn phí bởi ManhTool" để mở lại'
+      ],
+      load: function () { return promoCall('GET', '/admin/promo'); },
+      saveFree: function (f) { return promoCall('PUT', '/admin/promo/free', { free: f }); },
+      saveBrand: function (b) { return promoCall('PUT', '/admin/promo/brand', { brand: b }); },
+      announce: function (f, brand) {
+        P.announce(f, brand, {
+          force: true, title: 'Gói Pro đang miễn phí',
+          text: 'Tạo mã QR động, đặt đường dẫn riêng, đặt mật khẩu và xem thống kê dài ngày — không cần thanh toán.',
+          perks: ['100 mã QR động', 'Đường dẫn riêng …/q/ten-ban', 'Mật khẩu, hẹn ngày tắt mã', f.keep ? 'Đăng nhập là giữ vĩnh viễn' : 'Thống kê đến 400 ngày'],
+          cta: { label: 'Đăng nhập để dùng Pro miễn phí' },
+          note: f.keep ? 'Đăng nhập Google trong thời gian này để giữ Pro vĩnh viễn, kể cả khi chương trình kết thúc.' : 'Mã QR động tạo trong thời gian này vẫn chạy bình thường sau khi chương trình kết thúc.'
+        });
+      },
+      toast: function (m) { toast(m); }
+    });
+  }
 
   function setReportBadge(n) {
     $('reportBadge').hidden = !n;

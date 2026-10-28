@@ -13,6 +13,7 @@ async function meRoutes(ctx, req, res, url) {
     const a = tokens.authenticate(req);
     if (a.error === 'none') { json(res, config, 200, { user: null }); return true; }
     if (a.error) { json(res, config, 401, { error: 'Phiên đăng nhập hết hạn', code: 'token_expired' }); return true; }
+    ctx.promo.claim(a.user); // đang mở miễn phí có "giữ vĩnh viễn" → ghi nhận cho tài khoản này
     json(res, config, 200, { user: users.toPublic(a.user), quota: codes.quota(a.user), sessions: tokens.activeDevices(a.user.id) });
     return true;
   }

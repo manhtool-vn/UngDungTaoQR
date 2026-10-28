@@ -360,3 +360,68 @@ test('Trang phụ: robots.txt, sitemap, điều khoản, 404 dễ đọc; tên m
   assert.equal(r.headers.location, 'http://localhost:5180/?login=ok');
   assert.equal((await s.getAs('localhost:5180', '/')).status, 200);
 });
+
+/* ---------- Miễn phí & giới thiệu ---------- */
+test('Mở Pro miễn phí: tài khoản dùng như Pro, mã tạo lúc miễn phí không bị tạm dừng, giữ vĩnh viễn, lời giới thiệu', async (t) => {
+  const s = await setup(t);
+  const admin = s.user('admin@x.vn', { role: 'admin' });
+  const a = s.user('a@x.vn');
+  const b = s.user('b@x.vn');
+  assert.equal((await s.req('PUT', '/api/admin/promo/free', { cookie: a.cookie, json: { free: null } })).status, 403);
+  let cfg = (await s.req('GET', '/api/config')).data;
+  assert.equal(cfg.free, null);
+  assert.ok(cfg.brand.products.length === 3 && !cfg.brand.products.some((p) => /qr\.manhtool/.test(p.url)), 'không tự giới thiệu chính mình');
+
+  // cấu hình sai bị chặn
+  assert.match((await s.req('PUT', '/api/admin/promo/free', { cookie: admin.cookie, json: { free: { features: ['xyz'] } } })).data.error, /ít nhất một/);
+
+  // mở 2 ngày, không giữ vĩnh viễn
+  let r = await s.req('PUT', '/api/admin/promo/free', { cookie: admin.cookie, json: { free: { features: ['pro'], endsAt: s.clock.t + 2 * DAY, keep: false } } });
+  assert.equal(r.status, 200);
+  assert.equal(r.data.running, true);
+  cfg = (await s.req('GET', '/api/config')).data;
+  assert.deepEqual(cfg.free.features, ['pro']);
+  let me = (await s.req('GET', '/api/me', { cookie: a.cookie })).data;
+  assert.equal(me.user.pro, true);
+  assert.equal(me.user.paid, false);
+  assert.equal(me.quota.limit, 100);
+  assert.deepEqual(me.user.freeKeep, [], 'không giữ vĩnh viễn');
+  // tạo 5 mã động (vượt hạn mức miễn phí 3) + dùng tính năng Pro
+  const ids = [];
+  for (let i = 0; i < 5; i++) { s.clock.t += 1000; ids.push((await s.req('POST', '/api/codes', { cookie: a.cookie, json: { target: 'a.vn/' + i } })).data.code.id); }
+  assert.equal((await s.req('PATCH', '/api/codes/' + ids[0], { cookie: a.cookie, json: { slug: 'tiem-banh' } })).status, 200);
+  assert.equal(Object.values(s.db.data.codes).filter((c) => c.freeAt).length, 5);
+
+  // hết chương trình: trở lại gói miễn phí nhưng 5 mã đã in vẫn chạy
+  s.clock.t += 6 * DAY;
+  a.cookie = s.cookieFor(a.u);
+  assert.equal((await s.req('GET', '/api/config')).data.free, null);
+  me = (await s.req('GET', '/api/me', { cookie: a.cookie })).data;
+  assert.equal(me.user.pro, false);
+  const list = (await s.req('GET', '/api/codes', { cookie: a.cookie })).data.codes;
+  assert.ok(list.every((c) => c.state === 'active'), 'mã tạo lúc miễn phí không bị tạm dừng');
+  assert.equal((await s.req('GET', '/q/tiem-banh', { headers: { 'user-agent': ANDROID } })).status, 302);
+  assert.equal((await s.req('POST', '/api/codes', { cookie: a.cookie, json: { target: 'a.vn/6' } })).status, 403, 'không tạo thêm được');
+
+  // chương trình có giữ vĩnh viễn: tài khoản mở trang lúc đó được giữ Pro sau khi kết thúc
+  admin.cookie = s.cookieFor(admin.u);
+  await s.req('PUT', '/api/admin/promo/free', { cookie: admin.cookie, json: { free: { features: ['pro'], endsAt: s.clock.t + DAY, keep: true } } });
+  b.cookie = s.cookieFor(b.u);
+  assert.deepEqual((await s.req('GET', '/api/me', { cookie: b.cookie })).data.user.freeKeep, ['pro']);
+  s.clock.t += 2 * DAY;
+  b.cookie = s.cookieFor(b.u);
+  me = (await s.req('GET', '/api/me', { cookie: b.cookie })).data;
+  assert.equal(me.user.pro, true);
+  assert.equal(me.user.paid, false);
+  admin.cookie = s.cookieFor(admin.u);
+  r = await s.req('GET', '/api/admin/promo', { cookie: admin.cookie });
+  assert.equal(r.data.stats[0].value, 1);
+  assert.equal(r.data.stats[1].value, 5);
+
+  // lời giới thiệu: lọc dữ liệu lạ
+  r = await s.req('PUT', '/api/admin/promo/brand', { cookie: admin.cookie, json: { brand: { name: 'X', ctaUrl: 'javascript:alert(1)', frequency: 'hourly', products: [{ name: 'A', icon: 'qr', url: 'ftp://a' }] } } });
+  assert.equal(r.data.brand.ctaUrl, '');
+  assert.equal(r.data.brand.frequency, 'day');
+  assert.equal(r.data.brand.products[0].url, '');
+  assert.equal((await s.req('GET', '/api/config')).data.brand.name, 'X');
+});

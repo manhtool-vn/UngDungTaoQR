@@ -237,6 +237,29 @@ async function adminRoutes(ctx, req, res, url) {
     return true;
   }
 
+  // Miễn phí & giới thiệu: chương trình mở miễn phí + popup giới thiệu ManhTool
+  if (p === '/api/admin/promo' && m === 'GET') {
+    json(res, config, 200, ctx.promo.adminInfo());
+    return true;
+  }
+  if (p === '/api/admin/promo/free' && m === 'PUT') {
+    const body = await readBody(req);
+    const r = ctx.promo.setFree(body.free === null ? null : body.free);
+    if (r.error) { json(res, config, 400, { error: r.error }); return true; }
+    users.audit(me, body.free === null ? 'Tắt chương trình miễn phí' : 'Đổi chương trình miễn phí');
+    db.save();
+    json(res, config, 200, ctx.promo.adminInfo());
+    return true;
+  }
+  if (p === '/api/admin/promo/brand' && m === 'PUT') {
+    const body = await readBody(req);
+    const brand = ctx.promo.setBrand(body.brand);
+    users.audit(me, 'Đổi lời giới thiệu');
+    db.save();
+    json(res, config, 200, { brand });
+    return true;
+  }
+
   json(res, config, 404, { error: 'Không tìm thấy' });
   return true;
 }

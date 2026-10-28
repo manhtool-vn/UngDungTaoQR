@@ -47,7 +47,13 @@
       badges.appendChild(s);
     });
     var q = st.quota || { used: 0, limit: u.codeLimit };
-    if (u.pro) {
+    var free = window.MTPromo && st.cfg ? window.MTPromo.freeOn(st.cfg.free) : null;
+    if (u.pro && !u.paid && u.role !== 'admin') {
+      // Pro nhờ chương trình mở miễn phí (đang chạy hoặc được giữ vĩnh viễn)
+      var kept = (u.freeKeep || []).indexOf('pro') !== -1;
+      $('accPlan').textContent = 'Gói Pro miễn phí';
+      $('accPlanText').textContent = (kept ? 'Được giữ Pro vĩnh viễn từ chương trình miễn phí' : 'Đang mở miễn phí' + (free && free.endsAt ? ' đến ' + date(free.endsAt) : '')) + ' · Đang dùng ' + q.used + '/' + q.limit + ' mã động';
+    } else if (u.pro) {
       $('accPlan').textContent = 'Gói Pro';
       $('accPlanText').textContent = (u.role === 'admin' && !u.proUntil ? 'Quản trị viên dùng đầy đủ tính năng' : 'Còn hạn đến ' + date(u.proUntil)) + ' · Đang dùng ' + q.used + '/' + q.limit + ' mã động';
     } else {
@@ -56,7 +62,7 @@
     }
     var canBuy = !!(st.cfg && st.cfg.shop && st.cfg.shop.enabled);
     $('accUpgrade').hidden = !canBuy;
-    $('accUpgrade').lastElementChild.textContent = u.pro ? 'Gia hạn' : 'Nâng cấp';
+    $('accUpgrade').lastElementChild.textContent = u.paid ? 'Gia hạn' : 'Nâng cấp';
     $('accAdmin').hidden = u.role !== 'admin';
     $('accDelConfirm').checked = false;
     $('accDelete').disabled = true;
@@ -161,7 +167,7 @@
     try { flash = sessionStorage.getItem(KEY_FLASH); sessionStorage.removeItem(KEY_FLASH); } catch (e) { /* bỏ qua */ }
     if (flash) setTimeout(function () { toast(flash); }, 300);
 
-    function done() { st.ready = true; renderHeader(); emit(); }
+    function done() { st.ready = true; renderHeader(); emit(); promoUi(); }
     if (location.protocol === 'file:') return done();
     api('GET', '/config').then(function (r) {
       if (!r.ok || typeof r.data.googleLogin !== 'boolean') return done(); // trang tĩnh, không có máy chủ
@@ -177,6 +183,48 @@
         done();
       });
     }).catch(done);
+  }
+
+  /* ---------- Chương trình mở miễn phí & lời giới thiệu ManhTool (mt-promo.js) ---------- */
+  var promoStarted = false;
+  function goCodes() {
+    var t = document.getElementById('ma-dong');
+    if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  function announceOpts(f, force) {
+    var u = st.user, cfg = st.cfg, canKeep = f.keep && cfg.googleLogin;
+    return {
+      force: force, title: 'Gói Pro đang miễn phí',
+      text: 'Tạo mã QR động, đặt đường dẫn riêng, đặt mật khẩu và xem thống kê dài ngày — không cần thanh toán.',
+      perks: [Number(cfg.proLimit || 100).toLocaleString('vi-VN') + ' mã QR động', 'Đường dẫn riêng …/q/ten-ban', 'Mật khẩu, hẹn ngày tắt mã', canKeep ? 'Đăng nhập là giữ vĩnh viễn' : 'Thống kê đến 400 ngày'],
+      cta: !u && cfg.googleLogin ? { label: 'Đăng nhập để dùng Pro miễn phí', onClick: login } : { label: 'Tạo mã QR động ngay', onClick: goCodes },
+      note: canKeep
+        ? (u ? 'Tài khoản ' + u.email + ' đã được giữ Pro vĩnh viễn.' : 'Đăng nhập Google trong thời gian này để giữ Pro vĩnh viễn, kể cả khi chương trình kết thúc.')
+        : 'Mã QR động tạo trong thời gian này vẫn chạy bình thường sau khi chương trình kết thúc.'
+    };
+  }
+  function promoUi() {
+    var P = window.MTPromo;
+    if (!P || !st.cfg || promoStarted) return;
+    promoStarted = true;
+    var u = st.user, admin = !!(u && u.role === 'admin');
+    var free = P.freeOn(st.cfg.free), brand = st.cfg.brand;
+    if (free) {
+      // Hết giờ khi đang mở trang → lấy lại cấu hình và hồ sơ (khoá lại tính năng Pro)
+      P.bar(free, {
+        text: 'Gói Pro đang miễn phí', onClick: function () { P.announce(free, brand, announceOpts(free, true)); },
+        onEnd: function () { api('GET', '/config').then(function (r) { if (r.ok) st.cfg = r.data; return refresh(); }); }
+      });
+      // Quản trị viên không bị tự hiện (vẫn bấm dải xanh để xem)
+      if (!admin) P.scheduleAnnounce(free, brand, announceOpts(free));
+    }
+    // Tài khoản đã trả tiền không thấy lời giới thiệu
+    if (brand && !(u && u.paid)) {
+      var kick = free ? 'Mở Pro miễn phí bởi' : 'Tạo mã QR miễn phí bởi';
+      var host = document.querySelector('[data-mp-chip]');
+      if (host) P.chip(brand, host, { label: 'Bản miễn phí bởi', kick: kick });
+      if (!admin) P.schedule(brand, { kick: kick });
+    }
   }
 
   window.QRAccount = {

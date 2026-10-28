@@ -1,12 +1,12 @@
 /* ManhTool — Tạo mã QR: phần tạo mã tĩnh chạy được khi mất mạng.
    Ưu tiên mạng (luôn lấy bản mới nhất), mất mạng thì dùng bản đã lưu. Đổi VERSION khi muốn xóa bộ nhớ cũ.
    Không bao giờ lưu /q/ (mã động phải luôn hỏi máy chủ để đếm lượt và lấy đích mới), /api/ và trang quản trị. */
-var VERSION = 'ma-qr-v1';
+var VERSION = 'ma-qr-v2';
 var SHELL = [
   './', 'index.html', 'manifest.webmanifest', 'dieu-khoan.html', 'bao-mat.html',
-  'assets/css/style.css', 'assets/css/account.css', 'assets/css/qr.css', 'assets/css/doc.css',
+  'assets/css/style.css', 'assets/css/account.css', 'assets/css/qr.css', 'assets/css/doc.css', 'assets/css/mt-promo.css',
   'assets/js/boot.js', 'assets/js/qr-core.js', 'assets/js/qr-render.js', 'assets/js/payloads.js', 'assets/js/zip.js',
-  'assets/js/api.js', 'assets/js/app.js', 'assets/js/account.js', 'assets/js/codes.js', 'assets/js/shop.js', 'assets/js/page.js',
+  'assets/js/api.js', 'assets/js/app.js', 'assets/js/account.js', 'assets/js/codes.js', 'assets/js/shop.js', 'assets/js/page.js', 'assets/js/mt-promo.js',
   'assets/vendor/jsQR.js',
   'assets/img/mark-192.png', 'assets/img/logo-512.png', 'assets/img/logo-mark-96.png', 'assets/img/donate-qr.png'
 ];

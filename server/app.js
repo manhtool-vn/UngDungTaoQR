@@ -12,6 +12,7 @@ const { createRateLimiter } = require('./lib/rateLimit');
 const { createTokenService } = require('./services/tokens');
 const { createGoogleService } = require('./services/google');
 const { createUserService } = require('./services/users');
+const { createPromoService } = require('./services/promo');
 const { createPaymentService } = require('./services/payments');
 const { createCodeService } = require('./services/codes');
 const { createReportService } = require('./services/reports');
@@ -40,6 +41,7 @@ function createApp(opts) {
   const ctx = { config, db, now, log, limited: createRateLimiter(now) };
   ctx.tokens = createTokenService(ctx);
   ctx.google = createGoogleService({ config, db, fetch, log });
+  ctx.promo = createPromoService(ctx);
   ctx.users = createUserService(ctx);
   ctx.payments = createPaymentService(ctx);
   ctx.codes = createCodeService(ctx);

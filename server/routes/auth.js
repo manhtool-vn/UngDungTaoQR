@@ -19,7 +19,9 @@ async function authRoutes(ctx, req, res, url) {
   if (p === '/api/config' && m === 'GET') {
     json(res, config, 200, {
       googleLogin: google.settings().ready, shop: ctx.payments.publicInfo(), shortBase: config.shortUrl + '/q/',
-      freeLimit: users.limitFor(false), proLimit: users.limitFor(true)
+      freeLimit: users.limitFor(false), proLimit: users.limitFor(true),
+      // free: chương trình mở miễn phí đang chạy · brand: lời giới thiệu ManhTool cho người dùng bản miễn phí
+      ...ctx.promo.publicInfo()
     });
     return true;
   }

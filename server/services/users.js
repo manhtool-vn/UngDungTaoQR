@@ -2,11 +2,14 @@
 'use strict';
 const crypto = require('node:crypto');
 
-function createUserService({ config, db, now }) {
+function createUserService(ctx) {
+  const { config, db, now } = ctx;
   const iso = () => new Date(now()).toISOString();
 
-  // Pro còn hạn. Quản trị viên luôn được dùng như Pro để kiểm thử.
-  function isPro(u) { return !!u && (u.role === 'admin' || (u.proUntil || 0) > now()); }
+  // Đã trả tiền: Pro còn hạn (tài khoản này không bị tự hiện lời giới thiệu)
+  function paidPro(u) { return !!u && (u.proUntil || 0) > now(); }
+  // Được dùng như Pro: Pro còn hạn, quản trị viên (để kiểm thử), đang mở miễn phí, hoặc được giữ Pro từ chương trình miễn phí
+  function isPro(u) { return !!u && (u.role === 'admin' || paidPro(u) || (!!ctx.promo && ctx.promo.has(u, 'pro'))); }
 
   // Số mã động được phép bật cùng lúc
   function limitFor(pro) {
@@ -19,7 +22,9 @@ function createUserService({ config, db, now }) {
   function toPublic(u) {
     return {
       id: u.id, email: u.email, name: u.name, picture: u.picture || '', role: u.role,
-      pro: isPro(u), proUntil: u.proUntil || null, codeLimit: codeLimit(u), createdAt: u.createdAt
+      pro: isPro(u), proUntil: u.proUntil || null, codeLimit: codeLimit(u), createdAt: u.createdAt,
+      // paid: Pro đã trả tiền còn hạn · freeKeep: quyền lợi được giữ vĩnh viễn từ chương trình miễn phí
+      paid: paidPro(u), freeKeep: Array.isArray(u.freeKeep) ? u.freeKeep.slice() : []
     };
   }
 
@@ -78,7 +83,7 @@ function createUserService({ config, db, now }) {
     return Object.assign(toPublic(u), { active: !!u.active, lastLoginAt: u.lastLoginAt, codes: codes.length, scans, sessions: devices });
   }
 
-  return { toPublic, fromGoogle, audit, admins, summary, isPro, codeLimit, limitFor, extendPro, iso };
+  return { toPublic, fromGoogle, audit, admins, summary, isPro, paidPro, codeLimit, limitFor, extendPro, iso };
 }
 
 module.exports = { createUserService };

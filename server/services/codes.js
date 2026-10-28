@@ -67,7 +67,7 @@ function checkPassword(pw, stored) {
   return a.length === b.length && crypto.timingSafeEqual(a, b);
 }
 
-function createCodeService({ config, db, users, now }) {
+function createCodeService({ config, db, users, now, promo }) {
   const codes = () => db.data.codes;
   const shortHost = new URL(config.shortUrl).host;
   const publicHost = new URL(config.publicUrl).host;
@@ -157,6 +157,8 @@ function createCodeService({ config, db, users, now }) {
     if (c.scanLimit && c.stats.total >= c.scanLimit) return 'limit';
     const owner = db.data.users[c.userId];
     if (!owner || !owner.active) return 'off';
+    // Mã tạo trong thời gian mở miễn phí không bao giờ bị tạm dừng vì vượt hạn mức (khách có thể đã in mã)
+    if (c.freeAt) return 'active';
     const rank = rankMap ? rankMap.get(c.id) : enabledOf(c.userId).findIndex((x) => x.id === c.id);
     if (rank >= serveLimit(owner)) return 'quota';
     return 'active';
@@ -263,6 +265,7 @@ function createCodeService({ config, db, users, now }) {
       active: true, blocked: false, expiresAt: null, scanLimit: 0, pw: null, design: null, history: [],
       createdAt: now(), updatedAt: now(), stats: emptyStats()
     };
+    if (promo && promo.running() && !users.paidPro(user)) c.freeAt = now();
     apply(c, body, user, true);
     codes()[c.id] = c;
     slugIndex.set(c.slug, c.id);
