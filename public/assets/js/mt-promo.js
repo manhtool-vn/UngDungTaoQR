@@ -3,8 +3,8 @@
    Chạy được ở trình duyệt (window.MTPromo) lẫn Node (require: server dùng phần chuẩn hoá cấu hình).
 
    Cấu hình
-     MTPromo.defaults(app, logo)        — lời giới thiệu mặc định của ManhTool cho từng dự án (app: hengio, qr, ghichu, lich, quayso, tool)
-     MTPromo.suggest(app)               — phần chữ gợi ý (khẩu hiệu, giới thiệu, 3 sản phẩm khác, nút chính)
+     MTPromo.defaults(app, logo)        — lời giới thiệu mặc định (doansinhvien24h: gia sư lập trình, kho đồ án, làm web chuẩn SEO)
+     MTPromo.suggest(app)               — phần chữ gợi ý (khẩu hiệu, giới thiệu, 3 dịch vụ, nút chính)
      MTPromo.normalizeBrand(b, base)    — lọc cấu hình popup admin gửi lên (base = defaults của dự án)
      MTPromo.normalizeFree(f, keys)     — lọc cấu hình chương trình miễn phí (keys = các quyền lợi dự án có thể mở)
      MTPromo.freeError(f, keys, now)    — lý do cấu hình miễn phí không hợp lệ ('' = hợp lệ)
@@ -15,9 +15,9 @@
      MTPromo.announce(free, brand, o)   — thông báo chương trình miễn phí (đồng hồ đếm ngược, quyền lợi, nút chính)
      MTPromo.scheduleAnnounce(free, brand, o) — như trên, mỗi chương trình chỉ tự hiện một lần mỗi phiên
      MTPromo.bar(free, o)               — dải xanh đầu trang "Đang mở miễn phí … còn …", bấm để mở lại thông báo
-     MTPromo.chip(brand, host, o)       — dòng nhỏ "Bản miễn phí bởi ManhTool", bấm để mở lại lời giới thiệu
+     MTPromo.chip(brand, host, o)       — dòng nhỏ "Đồng hành cùng doansinhvien24h", bấm để mở lại lời giới thiệu
      MTPromo.rich(text)                 — **đậm**, đoạn, gạch đầu dòng, :tên-icon: → HTML an toàn
-   Trang tĩnh: <script src="mt-promo.js" data-app="tool" data-logo="assets/img/mark-192.png" defer> tự hẹn giờ popup,
+   Trang tĩnh: <script src="mt-promo.js" data-app="tool" data-logo="assets/img/dsv24h.svg" defer> tự hẹn giờ popup,
    gắn dòng nhỏ vào phần tử [data-mp-chip]. Thêm ?mt-promo vào địa chỉ để xem ngay. */
 (function (root, factory) {
   if (typeof module === 'object' && module.exports) module.exports = factory();
@@ -25,53 +25,42 @@
 })(typeof self !== 'undefined' ? self : this, function () {
   'use strict';
 
-  // ---------- thông tin ManhTool ----------
+  // ---------- thương hiệu được quảng bá ----------
+  // Các công cụ ManhTool miễn phí, đồng hành cùng doansinhvien24h: gia sư lập trình 1-1/nhóm, kho đồ án CNTT, làm web chuẩn SEO.
+  // LANDING: trang giới thiệu (thư mục GiaSuLapTrinh) — đổi tên miền ở đây là đổi khắp các popup.
+  const LANDING = 'https://manhtool.id.vn/gia-su-lap-trinh/';
   const SITE = {
-    phone: '0988392321', zalo: '0988392321', email: 'manhtoolemail@gmail.com',
-    website: 'https://manhtool.id.vn', facebook: 'https://www.facebook.com/profile.php?id=61593853584000',
+    phone: '0988392321', zalo: '0988392321', email: 'doansinhvien24h@gmail.com',
+    website: LANDING, facebook: 'https://www.facebook.com/profile.php?id=61593853584000',
   };
   const GREEN = '#0e7c5a';
-  // Sản phẩm ManhTool — popup ở mỗi dự án giới thiệu 3 sản phẩm khác (không tự giới thiệu chính mình)
-  const PRODUCTS = {
-    thiep: { icon: 'gift', name: 'Tạo thiệp online', desc: 'Thiệp 20/10, sinh nhật, cưới hỏi có ảnh, nhạc, hiệu ứng — gửi bằng một đường link', url: 'https://thiep.manhtool.id.vn/' },
-    hengio: { icon: 'alarm', name: 'Hẹn giờ nhắc việc', desc: 'Đếm ngược, đọc to việc cần làm, thống kê giờ tập trung mỗi ngày', url: 'https://hengio.manhtool.id.vn/' },
-    ghichu: { icon: 'note', name: 'ManhTool Ghi chú', desc: 'Ghi chú mã hoá, cùng soạn theo thời gian thực, chia sẻ link tự huỷ', url: 'https://ghichu.manhtool.id.vn/' },
-    qr: { icon: 'qr', name: 'Tạo mã QR', desc: 'QR có logo, màu, khung; mã động sửa được link sau khi in, xem lượt quét', url: 'https://qr.manhtool.id.vn/' },
-    lich: { icon: 'calendar', name: 'Lịch vạn niên', desc: 'Đổi ngày âm dương, xem can chi, giờ hoàng đạo, ngày lễ', url: 'https://lichvannien.manhtool.id.vn/' },
-    quayso: { icon: 'shuffle', name: 'Quay số may mắn', desc: 'Chia nhóm ngẫu nhiên, vòng quay, bốc thăm, phân công việc', url: 'https://quayso.manhtool.id.vn/' },
-    kho: { icon: 'grid', name: 'Kho công cụ ManhTool', desc: 'Đếm ký tự, tạo mật khẩu, làm đẹp JSON… dùng ngay, không cần cài đặt', url: 'https://manhtool.id.vn' },
-  };
-  // Mỗi dự án: câu mở đầu riêng + 3 sản phẩm hợp nhất với người đang dùng nó
-  const APPS = {
-    hengio: { hook: 'Mỗi phút tập trung đều đáng giá', picks: ['ghichu', 'thiep', 'qr'] },
-    qr: { hook: 'Một mã QR nhỏ – mở ra nhiều kết nối', picks: ['thiep', 'ghichu', 'hengio'] },
-    ghichu: { hook: 'Ghi chú của bạn – chỉ bạn đọc được', picks: ['hengio', 'qr', 'thiep'] },
-    lich: { hook: 'Xem ngày nhanh – lên lịch an tâm', picks: ['hengio', 'thiep', 'ghichu'] },
-    quayso: { hook: 'Quay số công bằng – chia nhóm trong vài giây', picks: ['thiep', 'qr', 'hengio'] },
-    tool: { hook: 'Những công cụ nhỏ – tạo nên giá trị lớn', picks: ['ghichu', 'qr', 'thiep'] },
-  };
-  const appOf = (app) => APPS[app] || APPS.tool;
+  const BRAND_COLOR = '#3b4fa8'; // xanh navy lấy từ logo doansinhvien24h — nổi bật trên giao diện xanh lá của ManhTool
+  const SERVICES = [
+    { icon: 'users', name: 'Gia sư lập trình 1-1 & nhóm', desc: 'Frontend, backend, fullstack theo lộ trình riêng, học bằng dự án thật, có người review code', url: LANDING },
+    { icon: 'book', name: 'Kho đồ án CNTT doansinhvien24h', desc: 'Đồ án, bài tập lớn, source code có demo: Node.js, React, Laravel, Spring Boot', url: 'https://doansinhvien24h.vn/projects' },
+    { icon: 'globe', name: 'Làm website, app chuẩn SEO', desc: 'Senior Web Developer nhận làm web, app theo yêu cầu: chạy nhanh, chuẩn SEO, dễ mở rộng', url: LANDING + '#lam-web' },
+  ];
 
-  function suggest(app) {
+  // app: dự án đang hiện popup (hengio, qr, ghichu, lich, quayso, tool) — hiện mọi dự án dùng chung một nội dung
+  function suggest() {
     return {
-      tagline: 'Phần mềm · Ứng dụng di động · Website theo yêu cầu',
+      tagline: 'Gia sư lập trình · Kho đồ án CNTT · Web chuẩn SEO',
       about: [
-        `**${appOf(app).hook}**`,
-        'ManhTool làm ra những công cụ trực tuyến miễn phí, đơn giản và đẹp — để công nghệ đến gần hơn với mọi người.',
-        'Mình còn nhận **làm phần mềm, app di động và website** theo yêu cầu cho cá nhân, cửa hàng và doanh nghiệp:\n- Giao diện đẹp, chạy nhanh, đúng nhu cầu\n- Đồng hành tận tâm cả sau khi bàn giao',
-        ':graduation: **Sinh viên CNTT?** Mình hỗ trợ định hướng đề tài, hoàn thiện đồ án, khoá luận tốt nghiệp và viết báo cáo — giải thích kỹ để bạn tự tin bảo vệ.',
+        '**Code giỏi thật sự — học 1-1 cùng Senior Web Developer**',
+        'Công cụ ManhTool miễn phí và sẽ luôn miễn phí. Người làm ra chúng nhận **gia sư lập trình 1-1 hoặc theo nhóm**: frontend, backend, fullstack — học bằng dự án thật, có người review từng dòng code.\n- Python, JavaScript, Java\n- MySQL, SQL Server, PostgreSQL, MongoDB, Redis\n- ORM, JWT, OAuth, Microservices, SEO kỹ thuật',
+        ':graduation: **Sinh viên CNTT?** Kho đồ án, bài tập lớn có demo tại **doansinhvien24h.vn**, kèm định hướng đề tài, hướng dẫn khoá luận và báo cáo để bạn tự tin bảo vệ.',
       ].join('\n\n'),
-      ctaLabel: 'Nhắn Zalo tư vấn miễn phí',
-      products: appOf(app).picks.map((k) => Object.assign({}, PRODUCTS[k])),
+      ctaLabel: 'Nhắn Zalo tư vấn lộ trình miễn phí',
+      products: SERVICES.map((p) => Object.assign({}, p)),
     };
   }
   function defaults(app, logo) {
     return Object.assign({
-      enabled: true, name: 'ManhTool', logo: logo || '', ctaUrl: '',
+      enabled: true, name: 'doansinhvien24h', logo: logo || '', ctaUrl: '',
       phone: SITE.phone, zalo: SITE.zalo, email: SITE.email, website: SITE.website, facebook: SITE.facebook,
       // delay: hiện sau bao nhiêu giây trang hiển thị · frequency: always | session | day
       // lock: số giây phải chờ mới đóng được · scrollClose: phải cuộn xuống hết mới đóng (đi kèm lock)
-      delay: 30, frequency: 'day', lock: 3, color: GREEN, scrollClose: false,
+      delay: 30, frequency: 'day', lock: 3, color: BRAND_COLOR, scrollClose: false,
     }, suggest(app));
   }
 
@@ -215,7 +204,7 @@
   const lockOf = (b) => Math.max(0, Math.min(15, Number(b && b.lock) || 0));
 
   const core = {
-    SITE, PRODUCTS, APPS, ICON_NAMES, defaults, suggest, normalizeBrand, normalizeFree, freeError, freeOn, freeHas, rich, icon, esc,
+    SITE, LANDING, SERVICES, ICON_NAMES, defaults, suggest, normalizeBrand, normalizeFree, freeError, freeOn, freeHas, rich, icon, esc,
   };
   if (typeof document === 'undefined') return core;
 
@@ -371,9 +360,9 @@
   function show(b, o = {}) {
     if (!b) return null;
     const ctx = o.context || 'app';
-    const kick = ctx === 'preview' ? 'Xem thử — người dùng bản miễn phí sẽ thấy' : (o.kick || 'Bản miễn phí được duy trì bởi');
+    const kick = ctx === 'preview' ? 'Xem thử — người dùng bản miễn phí sẽ thấy' : (o.kick || 'Bản miễn phí, đồng hành cùng');
     const foot = o.foot === false ? '<span></span>'
-      : `<a href="${esc((o.foot && o.foot.href) || 'https://manhtool.id.vn')}" target="_blank" rel="noopener">${esc((o.foot && o.foot.label) || 'Xem tất cả công cụ')} ${icon('arrow-right')}</a>`;
+      : `<a href="${esc((o.foot && o.foot.href) || LANDING)}" target="_blank" rel="noopener">${esc((o.foot && o.foot.label) || 'Xem lộ trình học')} ${icon('arrow-right')}</a>`;
     const d = dialog(`<div class="mp-hero mp-hero-b"><span class="mp-tag">${icon('gift')}${esc(kick)}</span>
         <div class="mp-brand">${logoHtml(b)}<div><b>${esc(b.name)}</b>${b.tagline ? `<small>${esc(b.tagline)}</small>` : ''}</div></div></div>
       <div class="mp-pad">${bodyHtml(b)}
@@ -465,7 +454,7 @@
     if (!b || !host) return null;
     const c = document.createElement('button');
     c.type = 'button'; c.className = 'mp-chip';
-    c.innerHTML = `${b.logo ? `<img src="${esc(b.logo)}" alt="" width="24" height="24">` : icon('sparkles')}<span>${esc(o.label || 'Bản miễn phí bởi')} <b>${esc(b.name)}</b></span>${icon('chevron')}`;
+    c.innerHTML = `${b.logo ? `<img src="${esc(b.logo)}" alt="" width="24" height="24">` : icon('sparkles')}<span>${esc(o.label || 'Đồng hành cùng')} <b>${esc(b.name)}</b></span>${icon('chevron')}`;
     c.onclick = () => show(b, Object.assign({}, o, { force: true }));
     host.appendChild(c);
     return c;
@@ -477,8 +466,8 @@
     const start = () => {
       const b = defaults(me.dataset.app, me.dataset.logo || '');
       if (me.dataset.delay) b.delay = Number(me.dataset.delay) || b.delay;
-      const o = { kick: me.dataset.kick || 'Công cụ miễn phí bởi', scope: 'tool' };
-      document.querySelectorAll('[data-mp-chip]').forEach((h) => chip(b, h, Object.assign({ label: 'Công cụ miễn phí bởi' }, o)));
+      const o = { kick: me.dataset.kick || 'Công cụ miễn phí, đồng hành cùng', scope: 'tool' };
+      document.querySelectorAll('[data-mp-chip]').forEach((h) => chip(b, h, Object.assign({ label: 'Công cụ miễn phí, đồng hành cùng' }, o)));
       if (/[?&#]mt-promo\b/.test(location.search + location.hash)) show(b, Object.assign({}, o, { force: true }));
       else schedule(b, o);
     };

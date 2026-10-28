@@ -11,7 +11,7 @@ const FEATURES = [
   { key: 'pro', label: 'Toàn bộ tính năng Pro', hint: 'Thêm mã động, đặt tên đường dẫn, mật khẩu, hẹn ngày tắt, giới hạn lượt quét, thống kê 400 ngày, xuất CSV' }
 ];
 const KEYS = FEATURES.map((f) => f.key);
-const BASE = P.defaults('qr', '/assets/img/mark-192.png');
+const BASE = P.defaults('qr', '/assets/img/dsv24h.svg');
 
 function createPromoService({ db, now }) {
   const s = () => db.data.settings;

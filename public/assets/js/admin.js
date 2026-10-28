@@ -106,14 +106,14 @@
   function loadPromo() {
     var P = window.MTPromo;
     window.MTPromoAdmin.mount($('promoAdmin'), {
-      base: P.defaults('qr', '/assets/img/mark-192.png'),
+      base: P.defaults('qr', '/assets/img/dsv24h.svg'),
       features: [{ key: 'pro', label: 'Toàn bộ tính năng Pro', hint: 'Thêm mã động, đặt tên đường dẫn, mật khẩu, hẹn ngày tắt, giới hạn lượt quét, thống kê 400 ngày, xuất CSV' }],
       keepLabel: 'Tài khoản đăng nhập trong thời gian miễn phí được giữ Pro vĩnh viễn. Dù tắt ô này, mã động tạo lúc miễn phí vẫn không bao giờ bị tạm dừng.',
       where: [
         'Trang chính: dải xanh đếm ngược ở đầu trang, thông báo tự hiện một lần mỗi phiên',
         'Bảng giá: giá gói Pro gạch ngang, ghi "Đang mở miễn phí đến …"',
         'Tài khoản đăng nhập dùng ngay mọi tính năng Pro; hộp Tài khoản ghi "Gói Pro miễn phí"',
-        'Popup giới thiệu ManhTool cho người dùng bản miễn phí; cuối trang có dòng "Bản miễn phí bởi ManhTool" để mở lại'
+        'Popup giới thiệu doansinhvien24h (gia sư lập trình, kho đồ án) cho người dùng bản miễn phí; cuối trang có dòng "Đồng hành cùng doansinhvien24h" để mở lại'
       ],
       load: function () { return promoCall('GET', '/admin/promo'); },
       saveFree: function (f) { return promoCall('PUT', '/admin/promo/free', { free: f }); },

@@ -1,7 +1,7 @@
 /* ManhTool — Tạo mã QR: phần tạo mã tĩnh chạy được khi mất mạng.
    Ưu tiên mạng (luôn lấy bản mới nhất), mất mạng thì dùng bản đã lưu. Đổi VERSION khi muốn xóa bộ nhớ cũ.
    Không bao giờ lưu /q/ (mã động phải luôn hỏi máy chủ để đếm lượt và lấy đích mới), /api/ và trang quản trị. */
-var VERSION = 'ma-qr-v2';
+var VERSION = 'ma-qr-v3';
 var SHELL = [
   './', 'index.html', 'manifest.webmanifest', 'dieu-khoan.html', 'bao-mat.html',
   'assets/css/style.css', 'assets/css/account.css', 'assets/css/qr.css', 'assets/css/doc.css', 'assets/css/mt-promo.css',

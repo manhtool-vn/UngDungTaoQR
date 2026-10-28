@@ -220,9 +220,9 @@
     }
     // Tài khoản đã trả tiền không thấy lời giới thiệu
     if (brand && !(u && u.paid)) {
-      var kick = free ? 'Mở Pro miễn phí bởi' : 'Tạo mã QR miễn phí bởi';
+      var kick = free ? 'Mở Pro miễn phí, đồng hành cùng' : 'Tạo mã QR miễn phí, đồng hành cùng';
       var host = document.querySelector('[data-mp-chip]');
-      if (host) P.chip(brand, host, { label: 'Bản miễn phí bởi', kick: kick });
+      if (host) P.chip(brand, host, { label: 'Đồng hành cùng', kick: kick });
       if (!admin) P.schedule(brand, { kick: kick });
     }
   }

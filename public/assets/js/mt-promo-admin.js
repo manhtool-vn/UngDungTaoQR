@@ -49,7 +49,7 @@
       el.innerHTML = `<div class="mpa">
         <section class="mpa-sec">
           <div class="mpa-h"><h3>${P.icon('gift')}Mở miễn phí</h3>${statusHtml()}</div>
-          <p class="mpa-desc">Khi ít người mua: mở miễn phí các quyền lợi trả phí trong một khoảng thời gian. Mọi trang tự hiện thông báo một lần mỗi phiên kèm đồng hồ đếm ngược, đầu trang có dải xanh. Đổi lại, người dùng bản miễn phí thấy lời giới thiệu ngắn của ManhTool.</p>
+          <p class="mpa-desc">Khi ít người mua: mở miễn phí các quyền lợi trả phí trong một khoảng thời gian. Mọi trang tự hiện thông báo một lần mỗi phiên kèm đồng hồ đếm ngược, đầu trang có dải xanh. Đổi lại, người dùng bản miễn phí thấy lời giới thiệu ngắn của đơn vị đồng hành.</p>
           ${state.stats && state.stats.length ? `<div class="mpa-stats">${state.stats.map((s) => `<div><b>${esc(s.value)}</b><small>${esc(s.label)}</small></div>`).join('')}</div>` : ''}
           <form class="mpa-form" data-f="free">
             <fieldset class="mpa-feat"><legend>Mở miễn phí</legend>
@@ -213,7 +213,7 @@
       el.querySelector('[data-act="pv"]').addEventListener('click', () => P.show(readBrand(), { context: 'preview' }));
       el.querySelector('[data-act="sug"]').addEventListener('click', () => {
         const s = o.base;
-        fb.elements.tagline.value = s.tagline; fb.elements.about.value = s.about; fb.elements.ctaLabel.value = s.ctaLabel;
+        ['name', 'tagline', 'about', 'ctaLabel', 'logo', 'website', 'email', 'color'].forEach((k) => { if (s[k] != null) fb.elements[k].value = s[k]; });
         renderProds(s.products); preview();
         o.toast('Đã điền nội dung gợi ý — bấm Lưu để áp dụng');
       });
