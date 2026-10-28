@@ -386,7 +386,7 @@
       : '<div class="mp-until">Áp dụng đến khi chương trình kết thúc — nhanh tay kẻo lỡ</div>';
     const cta = o.cta || {};
     const about = b && b.enabled !== false
-      ? `<div class="mp-sep"><span>Về ${esc(b.name)}</span></div><div class="mp-sponsor"><div class="mp-head">${logoHtml(b)}<div><b>${esc(b.name)}</b>${b.tagline ? `<small>${esc(b.tagline)}</small>` : ''}</div></div>${bodyHtml(b)}</div>` : '';
+      ? `<div class="mp-sep"><span>Về ${esc(b.name)}</span></div><div class="mp-sponsor"><div class="mp-shead">${logoHtml(b)}<div><b>${esc(b.name)}</b>${b.tagline ? `<small>${esc(b.tagline)}</small>` : ''}</div></div>${bodyHtml(b)}</div>` : '';
     // pháo giấy nhỏ rơi trong dải đầu (CSS) — chỉ trang trí
     const confetti = Array.from({ length: 14 }, (_, i) => `<i style="left:${(i * 7.3 + 3) % 100}%;animation-delay:${(-i * 0.37).toFixed(2)}s;--h:${(i * 47) % 360}"></i>`).join('');
     const d = dialog(`<div class="mp-hero"><div class="mp-confetti" aria-hidden="true">${confetti}</div><span class="mp-gift" aria-hidden="true">${icon('gift')}</span>

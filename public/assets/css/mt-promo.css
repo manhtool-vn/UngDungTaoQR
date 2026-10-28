@@ -108,11 +108,11 @@ html.mp-open { overflow: hidden; }
 .mp-sponsor .mp-about { margin-top: 12px; }
 
 /* nội dung giới thiệu */
-.mp-head { display: flex; align-items: center; gap: 12px; }
+.mp-shead { display: flex; align-items: center; gap: 12px; }
 .mp-logo { flex: none; width: 56px; height: 56px; border-radius: 16px; object-fit: cover; background: #fff; box-shadow: 0 4px 14px rgba(0, 0, 0, .12); }
 .mp-logo-i { display: grid; place-items: center; color: var(--mp); font-size: 28px; }
-.mp-head b { display: block; font-size: 20px; font-weight: 800; line-height: 1.2; color: var(--mp-strong); }
-.mp-head small { display: block; margin-top: 2px; font-size: 13px; line-height: 1.4; color: var(--mp-text-2); }
+.mp-shead b { display: block; font-size: 20px; font-weight: 800; line-height: 1.2; color: var(--mp-strong); }
+.mp-shead small { display: block; margin-top: 2px; font-size: 13px; line-height: 1.4; color: var(--mp-text-2); }
 .mp-about { margin: 0 0 2px; font-size: 15px; line-height: 1.7; color: var(--mp-text); }
 .mp-about p, .mp-about ul { margin: 0 0 12px; text-wrap: pretty; }
 .mp-about > :last-child { margin-bottom: 0; }
